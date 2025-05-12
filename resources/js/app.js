@@ -1,7 +1,14 @@
-import './bootstrap';
+import { createApp } from 'vue';
+import '../css/app.css';
 
-import Alpine from 'alpinejs';
+import ExampleComponent from './components/ExampleComponent.vue';
 
-window.Alpine = Alpine;
+const app = createApp({});
 
-Alpine.start();
+// Aqui registramos um componente (opcional)
+app.component('example-component', ExampleComponent);
+
+console.log('Vue App está a correr...');
+
+app.mount('#app'); // montamos no ID onde quiseres
+
