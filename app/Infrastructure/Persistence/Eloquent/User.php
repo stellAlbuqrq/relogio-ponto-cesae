@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Infrastructure\Persistence\Eloquent;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +35,7 @@ class User extends Authenticatable
      *
      * @var list<string>
 
-    
+
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
