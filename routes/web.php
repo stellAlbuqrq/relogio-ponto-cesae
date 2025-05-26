@@ -18,3 +18,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+//VIEW PARA TESTES
+Route::get('/teste', function () {
+    return view('alunos.teste');
+});
