@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'email' => 'carmem.zavattieri.298335670@msft.cesae.pt',
             'password' => bcrypt('password123'),
             'role' => 'aluno',
-            'ip_address' => '192.168.1.191',
+            'ip_address' => '192.168.1.163',
         ]);
 
         User::create([

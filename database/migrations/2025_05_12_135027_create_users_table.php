@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['aluno', 'formador', 'admin']);
             $table->string('ip_address')->nullable(); // IP da máquina do aluno
+            $table->rememberToken();  //Garantir que funcione o remember me no login
             $table->timestamps();
         });
 
