@@ -11,7 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'role', 'ip_address'];
+    protected $fillable = ['name', 'email', 'password', 'role'];
 
     // Se for aluno
     public function modulosComoAluno()
@@ -35,7 +35,7 @@ class User extends Authenticatable
      *
      * @var list<string>
 
-    
+
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

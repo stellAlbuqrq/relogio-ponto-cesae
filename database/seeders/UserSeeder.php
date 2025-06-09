@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'email' => 'carmem.zavattieri.298335670@msft.cesae.pt',
             'password' => bcrypt('password123'),
             'role' => 'aluno',
-            'ip_address' => '192.168.1.163',
+            
         ]);
 
         User::create([
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
             'email' => 'julia.santos.304343595@msft.cesae.pt',
             'password' => bcrypt('password123'),
             'role' => 'aluno',
-            'ip_address' => '192.168.1.158',
+
         ]);
 
         User::create([
@@ -88,7 +88,7 @@ class UserSeeder extends Seeder
             'email' => 'stephanie.albuquerque.300297262@msft.cesae.pt',
             'password' => bcrypt('password123'),
             'role' => 'aluno',
-            'ip_address' => '192.168.1.212',
+
         ]);
     }
 }
