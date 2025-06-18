@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DisparoPinController;
 use App\Http\Controllers\PresencaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckIp;
@@ -20,11 +21,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Rotas que passam pelo middleware CheckRole = aluno e sem seguinda middleware CheckIp
-Route::middleware(['auth', CheckRole::class . ':admin,formador', CheckIp::class])->group(function () {
-    Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('alunos.presenca');        //Mostra view com os dados de picagem: data/hora/aluno/módulo/botão "Picagem"
-    Route::post('/presenca', [PresencaController::class, 'presencaGuardar'])->name('alunos.guardar');        //Guarda os dados de presença, ou seja, cria uma isntancia Presenca
+//Rotas que passam pelo middleware CheckRole = aluno
+Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
+    Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
+    Route::post('/presenca/checkin', [PresencaController::class, 'presencaCheckInGuardar'])->name('aluno.checkin');
+    Route::post('/presenca/checkout', [PresencaController::class, 'presencaCheckOutGuardar'])->name('aluno.checkout');
 });
+
+//Rotas que passam pelo middleware CheckRole = formador
+Route::middleware(['auth', 'checkrole:formador'])->group(function () {
+    //Rota página do botão disparar PIN
+    Route::get('/formador', [DisparoPinController::class, 'index'])->name('formador.index');
+    Route::post('/pin', [DisparoPinController::class, 'dispararPin'])->name('formador.pin');
+
+});
+
 
 
 

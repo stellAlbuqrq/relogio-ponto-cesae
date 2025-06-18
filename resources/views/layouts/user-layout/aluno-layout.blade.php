@@ -40,7 +40,7 @@
                     <p class="text-slate-500 text-sm">Manage your actions and activities</p>
                 </div>
                 <div id="profile" class="px-6 py-10">
-                    <p class="text-slate-500">Welcome back,</p>
+                    <p class="text-slate-500">Bem vindo(a),</p>
                     <a href="#" class="inline-flex space-x-2 items-center">
                         <span>
                             <img class="rounded-full w-8 h-8"
@@ -48,12 +48,12 @@
                                 alt="">
                         </span>
                         <span class="text-sm md:text-base font-bold">
-                            Edward Tompson
+                             {{ auth()->user()->nome }}
                         </span>
                     </a>
                 </div>
                 <div id="nav" class="w-full px-6">
-                    <a href="#"
+                    <a href="{{route('aluno.checkin')}}"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 bg-blue-800 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -64,8 +64,8 @@
 
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg font-bold leading-5 text-white">Dashboard</span>
-                            <span class="text-sm text-white/50 hidden md:block">Data Overview</span>
+                            <span class="text-lg font-bold leading-5 text-white">Presença</span>
+                            <span class="text-sm text-white/50 hidden md:block">Check-in / Check-out</span>
                         </div>
                     </a>
                     <a href="#"
@@ -78,8 +78,8 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Database</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Database Manager</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">Check-Out</span>
+                            <span class="text-sm text-slate-500 hidden md:block">Sair antecipadamente</span>
                         </div>
                     </a>
                     <a href="#"
@@ -92,11 +92,11 @@
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg text-slate-300 font-bold leading-5">Cloud Storage</span>
-                            <span class="text-sm text-slate-500 hidden md:block">Manage Cloud Storage</span>
+                            <span class="text-lg text-slate-300 font-bold leading-5">Histórico</span>
+                            <span class="text-sm text-slate-500 hidden md:block">Presenças e Faltas</span>
                         </div>
                     </a>
-                    <a href="#"
+                    {{-- <a href="#"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -151,7 +151,7 @@
                             <span class="text-lg text-slate-300 font-bold leading-5">Settings</span>
                             <span class="text-sm text-slate-500 hidden md:block">Edit App Settings</span>
                         </div>
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>

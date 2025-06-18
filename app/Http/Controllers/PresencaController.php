@@ -2,54 +2,94 @@
 
 namespace App\Http\Controllers;
 
+use App\AcaoPresenca;
+use App\Models\Cronograma;
+use App\Models\Presenca;
 use App\Services\CronogramaService;
+use App\Services\PinService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
+//DisparoPinController será reponsável pelo evento realizado pelo Formador
+//PresencaContoller será reponsável pelos eventos realizados pelo Aluno
 
 class PresencaController extends Controller
 {
     protected $cronogramaService;
+    protected $pinService;
 
     //Construtor do Service
-    public function __construct(CronogramaService $cronogramaService)
+    public function __construct(CronogramaService $cronogramaService, PinService $pinService)
     {
         $this->cronogramaService = $cronogramaService;
+        $this->pinService = $pinService;
     }
+
 
     //Método mostra a informação hora/data, aluno, módulo e botão "Picagem"
     public function presencaMostrar()
     {
-        $dataAgora = Carbon::now()->toDateString();
-        $horaAgora = Carbon::now()->toTimeString();
+        //Dados obtidos do cronograma -> com o cronograma_id obtemos o objeto cronograma onde tem toda a info de uma aula específica do cronograma (1 linha)
+        $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
-        $query = $this->cronogramaService->obterDiaCronograma($dataAgora, $horaAgora);
-        $registroPresenca = $query;
+        if (!$cronograma_id) {
+            // Erro caso não tenha aula hoje
+            return view('aluno.presenca')->with('error', 'Hoje não tem aula.');
+        }
+        $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
-
-
-        //Variavel $dataHoraAtual -> mostrar no front-end e também guardar
-        // $dataHoraAtual = Carbon::now();
-        // return view('alunos.teste', $dataHoraAtual);
-
-        //na view eu posso mostrar a HORA E DATA com Javascript, será apenas algo visual
-        //vou precisar fazer diferente, o form do view tem que ser um POST para guardar as informações
-        //POR GARANTIA, ao criar uma instancia ponto eu vou fazer o registrado_em = now(), assim assegura que o valor é confiável
-        //eX:
+        return view('aluno.presenca', ['cronograma' => $cronograma]);
     }
 
-    public function presencaGuardar()
-    {
-        //EXEMPLO DO STORE
-        /*
-    public function store(Request $request)
-    {
-        $reserva = new Reserva();
-        $reserva->nome = $request->nome;
-        // Guarda a data/hora atual gerada pelo servidor
-        $reserva->registrado_em = now();
-        $reserva->save();
 
-        return redirect()->back()->with('success', 'Reserva criada com sucesso!');
-    }*/
+    //Método que guarda o check-in
+    public function presencaCheckInGuardar(Request $request)
+    {
+        //validação dos campos que vem do front-end: PIN e comentário inseridos
+        $dadosValidados = $request->validate([
+            'comentario' => 'nullable|string|max:1000',
+            'pinInserido' => 'required|digits:4',
+        ]);
+
+        $pinInserido = $dadosValidados['pinInserido'];
+        $comentario = $dadosValidados['comentario'];
+
+        //obter cronograma_id
+        $cronograma_id = $this->cronogramaService->obterDiaCronograma();
+
+        //verificar se o formador já disparou o PIN
+        $pinExistente = $this->pinService->buscarUmPinPorAula($cronograma_id);
+
+        if (!$pinExistente) {
+            return view('aluno.checkin', [
+                'mensagem' => 'PIN ainda não foi ativo pelo formador.'
+            ]);
+        }
+
+        $pinDisparado = $this->pinService->mostrarPin($cronograma_id);
+
+        if ($pinInserido !== $pinDisparado) {
+            return view('aluno.checkin', [
+                'mensagem2' => 'PIN inserido incorreto. Tente novamente.'
+            ]);
+        }
+
+        Presenca::create([
+            'aluno_id' => auth()->id,
+            'cronograma_id' => $cronograma_id,
+            'acao' => AcaoPresenca::CheckIn,
+            'pin' => $request->$pinInserido,
+            'comentario' => $request->$comentario,
+        ]);
+
+        return view('aluno.presenca');
+    }
+
+    //Método que guarda o checkout
+    public function presencaCheckOutGuardar(Request $request) {
+
+
     }
 }
