@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('aluno_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('cronograma_id')->constrained()->onDelete('cascade');
             $table->enum('acao', ['check_in', 'check_out']);
-            $table->string('ip_address');
+            $table->integer('pin');
+            $table->string('comentario')->nullable();
             $table->timestamp('registrado_em')->useCurrent();
             $table->timestamps();
         });

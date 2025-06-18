@@ -9,7 +9,13 @@ class Presenca extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['aluno_id', 'cronograma_id', 'check_in', 'check_out', 'justificativa', 'anexo'];
+    protected $fillable = [
+        'aluno_id',
+        'cronograma_id',
+        'acao',
+        'pin',
+        'comentario',
+    ];
 
     public function aluno()
     {
