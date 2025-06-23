@@ -92,4 +92,12 @@ class PresencaController extends Controller
 
 
     }
+
+  public function paginaInicial()
+    {
+
+        return view('aluno.index');
+    }
+
+
 }

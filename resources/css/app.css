@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @import "tailwindcss";
+@source "../views";
+
+@plugin "daisyui"; */
+
+@import "tailwindcss";
+
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "daisyui";
+
+
+/* Paleta de cores:
+#7426AA - roxo
+#40155E - roxo escuro
+#EAEAEA - cinza claro
+#6A239B - roxo médio
+#AD87C6 - roxo claro
+#232526 - quase preto
+
+Cores logotipo:
+#F2059F - rosa
+#8154BF - roxo
+#190E40 - quase preto
+#0FB2F2 - azul */
+
+
+/* <weight>: Use a value from 200 to 1000
+<uniquifier>: Use a unique and descriptive class name
+
+.nunito-sans-<uniquifier> {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;  200-1000
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+} */
+
+
+/* Fonte */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+

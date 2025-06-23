@@ -26,6 +26,7 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
     Route::post('/presenca/checkin', [PresencaController::class, 'presencaCheckInGuardar'])->name('aluno.checkin');
     Route::post('/presenca/checkout', [PresencaController::class, 'presencaCheckOutGuardar'])->name('aluno.checkout');
+    Route::get('/', [PresencaController::class, 'paginaInicial'])->name('aluno.pagina-inicial');
 });
 
 //Rotas que passam pelo middleware CheckRole = formador
