@@ -20,16 +20,17 @@
 /* Paleta de cores:
 #7426AA - roxo
 #40155E - roxo escuro
-#EAEAEA - cinza claro
 #6A239B - roxo médio
 #AD87C6 - roxo claro
+
+#EAEAEA - cinza claro
 #232526 - quase preto
 
 Cores logotipo:
 #F2059F - rosa
 #8154BF - roxo
 #190E40 - quase preto
-#0FB2F2 - azul */
+#0FB2F2 - azul claro */
 
 
 /* <weight>: Use a value from 200 to 1000
@@ -49,4 +50,14 @@ Cores logotipo:
 /* Fonte */
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
+
+
+h1{
+    font-family: "Nunito Sans", sans-serif;
+    font-size: xx-large;
+}
+
+p{
+    font-family: "Nunito Sans", sans-serif;
+}
 
