@@ -24,16 +24,15 @@ class DisparoPinController extends Controller
     }
 
 
-    public function index()
+    public function mostrarPin()
     {
-
         //Obter o cronograma_id da aula
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
         //Buscar a instancia associada ao cronograma_id
         $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
-        return view('formador.index', compact('cronograma'));
+        return view('formador.pin', compact('cronograma'));
     }
 
 
@@ -46,7 +45,7 @@ class DisparoPinController extends Controller
         //Se $query é true, já existe um PIN para esta aula
         $query = $this->pinService->buscarUmPinPorAula($cronograma_id);
 
-        //Se pin existe, ele busca o pin e passa para a view formador.pin
+        //Se pin existe, ele busca o pin e passa para a view formador.duracao-pin
         if ($query == true) {
 
             $pinExistente = Pin::where('cronograma_id', $cronograma_id)->latest()->first();
@@ -54,7 +53,7 @@ class DisparoPinController extends Controller
 
             $horaExpiracao = Carbon::parse($pinExistente->created_at)->addMinutes(10)->format('H:i:s');
 
-            return view('formador.pin', [
+            return view('formador.duracao-pin', [
                 'pin' => $pinExistente->pin,
                 'horaExpiracao' => $horaExpiracao,
                 'mensagem' => 'Já existe um PIN ativo para esta aula.'
@@ -64,8 +63,15 @@ class DisparoPinController extends Controller
         //gerar o pin
         $pin = $this->pinService->gerarPinUnico();
 
-
         $horaExpiracao = Carbon::now()->addMinutes(10)->format('H:i:s');       // Definir tempo de expiração do PIN (10 minutos)
+
+        //dados guardados na session 'dadosPin'
+        // session([
+        //     'dadosPin' => [
+        //         'pin' => $pin,
+        //         'horaExpiracao' => $horaExpiracao,
+        //     ]
+        // ]);
 
         //no FRONT-END mostrar ao formador a hora que o PIN expira
 
@@ -75,7 +81,7 @@ class DisparoPinController extends Controller
             'pin' => $pin,
         ]);
 
-        return view('formador.pin', [
+        return view('formador.duracao-pin', [
             'pin' => $pin,
             'horaExpiracao' => $horaExpiracao
         ]);
