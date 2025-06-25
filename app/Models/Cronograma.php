@@ -34,7 +34,9 @@ class Cronograma extends Model
         return $this->hasMany(Presenca::class);
     }
 
-    public function formador(){
-        return $this->belongsTo(User::class);
+    public function formador()
+    {
+        return $this->belongsTo(User::class, 'formador_id');
     }
+
 }

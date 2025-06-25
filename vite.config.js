@@ -8,10 +8,11 @@ export default defineConfig({
             vue: 'vue/dist/vue.esm-bundler.js',
         },
     },
+   
+
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
                 'resources/css/app.css',
                 'resources/js/app.js',
             ],
@@ -20,3 +21,4 @@ export default defineConfig({
         vue(),
     ],
 });
+
