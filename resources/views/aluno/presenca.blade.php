@@ -3,88 +3,97 @@
 @section('content')
     <form action="{{ route('aluno.checkin') }}" method="POST">
         @csrf
-        <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md">
-            <h2 class="text-2xl font-semibold mb-6">Check In</h2>
-            {{-- Erro mensagem caso o aluno tente picar antes do formador disparar o PIN --}}
-            @if (isset($mensagem))
-                <div class="text-red-600 font-medium text-sm mb-4">
-                    {{ $mensagem }}
-                </div>
-            @endif
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Hora</label>
-                <label id= "hora" class="flex items-center space-x-2 px-3 py-2 text-gray-700"></label>
+        <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
+            <h2 class="text-2xl font-semibold text-center">Check In</h2>
+
+            {{-- Hora --}}
+            <div>
+                <p class="block text-gray-700 text-sm font-bold mb-1">Hora</p>
+                <div id="hora" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Data</label>
-                <label id="data" class="flex items-center space-x-2 px-3 py-2 text-gray-700"></label>
+
+            {{-- Data --}}
+            <div>
+                <p class="block text-gray-700 text-sm font-bold mb-1">Data</p>
+                <div id="data" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Módulo</label>
-                <div class="px-3 py-2">
-                    <label class="text-gray-700">
-                        {{ $cronograma->formador->nome }} - {{ $cronograma->modulo->nome }}
-                    </label>
+
+            {{-- Módulo --}}
+            <div>
+                <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
+                <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
+                    {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
                 </div>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Insira o PIN</label>
-                <div class="px-3 py-2">
-                    <input id="pinInserido" name="pinInserido" class="text-gray-700"></input>
-                </div>
+
+            {{-- PIN --}}
+            <div>
+                <label for="pinInserido" class="block text-gray-700 text-sm font-bold mb-1">Insira o PIN</label>
+                <input id="pinInserido" name="pinInserido" type="text" inputmode="numeric" pattern="\d{4}" maxlength="4"
+                    minlength="4" required placeholder="0000"
+                    class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
             </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Comentários</label>
-                <textarea id="comentario" name="comentario" rows="4" placeholder="How can we help you?"
-                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"></textarea>
-            </div>
+
+            {{-- Botão --}}
             <button type="submit" name="acao" value="check_in"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-                Check-in
+                class="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring">
+                Check‑in
             </button>
-        </div>
-    </form>
 
-    {{--
-    <form action="{{ route('aluno.checkout') }}" method="POST">
-        @csrf
-        <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md">
-            <h2 class="text-2xl font-semibold mb-6">Check Out</h2>
-            Erro mensagem caso o aluno tente picar antes do formador disparar o PIN
-            @if (isset($mensagem))
-                <div class="text-red-600 font-medium text-sm mb-4">
-                    {{ $mensagem }}
+            {{-- Mensagem de erro --}}
+            @if (session('mensagem'))
+                <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
+                    </svg>
+                    <div class="flex-1 text-sm">
+                        {{ session('mensagem') }}
+                    </div>
+                    <button type="button" onclick="this.parentElement.remove()"
+                        class="text-red-500 hover:text-red-700 focus:outline-none">
+                        &times;
+                    </button>
                 </div>
             @endif
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Hora</label>
-                <label id= "hora" class="flex items-center space-x-2 px-3 py-2 text-gray-700"></label>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Data</label>
-                <label id="data" class="flex items-center space-x-2 px-3 py-2 text-gray-700"></label>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Módulo</label>
-                <div class="px-3 py-2">
-                    <label class="text-gray-700">
-                        {{ $cronograma->formador->nome }} - {{ $cronograma->modulo->nome }}
-                    </label>
-                </div>
 
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Comentários</label>
-                <textarea id="comentario" name="comentario" rows="4" placeholder="How can we help you?"
-                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"></textarea>
-            </div>
-            <button type="submit" name="acao" value="check_out"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-                Check-out
-            </button>
-        </div>
+            {{-- mensagem de check in manual --}}
+            @if (session('checkin'))
+                <a href="{{route('aluno.checkin-manual')}}" @method("GET")>
+                    <div
+                        class="bg-white border border-slate-300 w-max h-20 shadow-lg rounded-md gap-4 p-4 flex flex-row items-center justify-center">
+                        <section class="w-6 h-full flex flex-col items-center justify-start">
+                            <svg width="100%" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M8 15s1.5-2 4-2 4 2 4 2" />
+                                <line x1="9" y1="9" x2="9.01" y2="9" />
+                                <line x1="15" y1="9" x2="15.01" y2="9" />
+                            </svg>
+                        </section>
+                        <section class="h-full flex flex-col items-start justify-end gap-1">
+                            <h1 class="text-base font-semibold text-zinc-800 antialiased">{{ session('checkin') }}</h1>
+                            <p class="text-sm font-medium text-zinc-400 antialiased">Clique aqui para Check-in tardio</p>
+                        </section>
+                        <section class="w-5 h-full flex flex-col items-center justify-start">
+                            <svg width="100%" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                class="cursor-pointer">
+                                <path
+                                    d="M4.06585 3.00507C3.77296 2.71218 3.29809 2.71218 3.00519 3.00507C2.7123 3.29796 2.7123 3.77284 3.00519 4.06573L4.06585 3.00507ZM10.0763 11.1368C10.3692 11.4297 10.844 11.4297 11.1369 11.1368C11.4298 10.8439 11.4298 10.369 11.1369 10.0761L10.0763 11.1368ZM3.00519 4.06573L10.0763 11.1368L11.1369 10.0761L4.06585 3.00507L3.00519 4.06573Z"
+                                    fill="#989fac" />
+                                <path
+                                    d="M11.1369 4.06573C11.4298 3.77284 11.4298 3.29796 11.1369 3.00507C10.844 2.71218 10.3691 2.71218 10.0762 3.00507L11.1369 4.06573ZM3.00517 10.0761C2.71228 10.369 2.71228 10.8439 3.00517 11.1368C3.29806 11.4297 3.77294 11.4297 4.06583 11.1368L3.00517 10.0761ZM10.0762 3.00507L3.00517 10.0761L4.06583 11.1368L11.1369 4.06573L10.0762 3.00507Z"
+                                    fill="#989fac" />
+                            </svg>
+                        </section>
+                    </div>
+
+                </a>
+            @endif
+
+
     </form>
-    --}}
+
 
 
     <script>

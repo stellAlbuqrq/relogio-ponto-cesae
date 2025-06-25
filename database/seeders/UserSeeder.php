@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
 
         //User Alunos:
         User::create([
-            'id' => '201',
+            'id' => 201,
             'nome' => 'Carmem',
             'email' => 'carmem.zavattieri.298335670@msft.cesae.pt',
             'password' => bcrypt('password123'),
@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'id' => '202',
+            'id' => 202,
             'nome' => 'Júlia',
             'email' => 'julia.santos.304343595@msft.cesae.pt',
             'password' => bcrypt('password123'),
@@ -81,7 +81,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'id' => '203',
+            'id' => 203,
             'nome' => 'Stéphanie',
             'email' => 'stephanie.albuquerque.300297262@msft.cesae.pt',
             'password' => bcrypt('password123'),

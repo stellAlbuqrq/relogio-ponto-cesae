@@ -15,4 +15,9 @@ class CronogramaRepository
         ->first()?->id;
     }
 
+    // public function buscarCronogramasDoDia($hoje){
+
+    //     return Cronograma::whereDate('data', $hoje)
+    // }
+
 }

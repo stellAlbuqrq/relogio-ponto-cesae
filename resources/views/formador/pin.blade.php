@@ -2,28 +2,42 @@
 
 @section('content')
     <div class="max-w-md mx-auto p-8 bg-white rounded-xl shadow-lg space-y-6">
-        <h2 class="text-3xl font-bold text-gray-800 text-center">Relógio de Ponto</h2>
-        {{-- Caso Pin já disparado, emite a mensagem de erro enviada pelo DisparoPinController --}}
-        @if (isset($mensagem))
-            <div class="text-red-600 font-medium text-sm mb-4">
-                {{ $mensagem }}
-            </div>
-        @endif
+    <h2 class="text-3xl font-bold text-gray-800 text-center">Relógio de Ponto</h2>
+
+    <form action="{{ route('formador.disparo-pin') }}" method="POST" class="space-y-4">
+        @csrf
         <div>
             <label class="block text-gray-600 text-sm font-medium mb-1">Hora</label>
             <div id="hora" class="bg-gray-100 rounded-md px-4 py-2 text-gray-800"></div>
         </div>
 
         <div>
-            <label class="block text-gray-600 text-sm font-medium mb-1">PIN</label>
-            <div id="hora" class="bg-gray-100 rounded-md px-4 py-2 text-gray-800">{{ $pin }}</div>
+            <label class="block text-gray-600 text-sm font-medium mb-1">Data</label>
+            <div id="data" class="bg-gray-100 rounded-md px-4 py-2 text-gray-800"></div>
         </div>
 
         <div>
-            <label class="block text-gray-600 text-sm font-medium mb-1">Duração do PIN:</label>
-            <div class="bg-gray-100 rounded-md px-4 py-2 text-gray-800">{{ $horaExpiracao }}</div>
+            <label class="block text-gray-600 text-sm font-medium mb-1">Formador</label>
+            <div class="bg-gray-100 rounded-md px-4 py-2 text-gray-800">
+                {{ $cronograma->formador->nome }}
+            </div>
         </div>
-    </div>
+
+        <div>
+            <label class="block text-gray-600 text-sm font-medium mb-1">Aula</label>
+            <div class="bg-gray-100 rounded-md px-4 py-2 text-gray-800">
+                {{ $cronograma->modulo->nome }}
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1">
+                Disparar PIN
+            </button>
+        </div>
+    </form>
+</div>
 
 
     <script>

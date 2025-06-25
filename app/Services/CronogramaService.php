@@ -36,4 +36,10 @@ class CronogramaService
 
         return $this->cronogramaRepositorio->buscarIdDoDiaDoCronograma($dataAgora, $horaAgora);
     }
+
+    //método para buscar os 2 cronograma por dia, este será auxiliar para o comando que faz checkout automatico
+    // public function obterCronogramas($hoje){
+
+    //     return $this->cronogramaRepositorio->buscarCronogramasDoDia($hoje);
+    // }
 }
