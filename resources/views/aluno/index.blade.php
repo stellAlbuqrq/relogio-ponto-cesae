@@ -19,7 +19,7 @@
 
         {{-- Check-in Tardio --}}
         <div class="flex flex-col rounded-2xl bg-[#7426AA] shadow-sm p-8 border border-slate-600">
-            <div class="text-center text-slate-100 border-b border-slate-600">
+            <div class="text-center">
                 <p class="text-xl uppercase font-semibold text-[#EAEAEA]">CHECK-IN TARDIO</p>
             </div>
             <div class="mt-5">
@@ -30,10 +30,25 @@
             </div>
         </div>
 
+                {{-- Check-out --}}
+        <div class="flex flex-col rounded-2xl bg-[#40155E] shadow-sm p-8 border border-slate-600">
+            <div class="text-center">
+                <p class="text-xl uppercase font-semibold text-[#EAEAEA]">CHECK-OUT</p>
+                <p class="text-md font-medium text-[#cfcdcd]">Para justificar a saída fora do horário</p>
+            </div>
+            <div class="mt-5">
+                <button
+                    class="w-full rounded-lg bg-white py-2 px-4 text-center text-lg font-bold text-[#40155E] transition-all shadow-md hover:shadow-lg focus:bg-white/90 active:bg-white/90">
+                    Faça agora
+                </button>
+            </div>
+        </div>
+
+
         {{-- Ausências --}}
         <div class="flex flex-col rounded-2xl bg-[#232526] shadow-sm p-8 border border-slate-600">
             <div class="text-center">
-                <p class="text-xl uppercase font-semibold text-[#EAEAEA]">AUSÊNCIAS</p>
+                <p class="text-xl uppercase font-semibold text-[#EAEAEA]">AS SUAS FALTAS</p>
             </div>
             <div class="mt-5">
                 <button

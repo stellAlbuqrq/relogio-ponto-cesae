@@ -11,6 +11,9 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+
+        "./src/**/*.{html,js}",
+        "./node_modules/tw-elements/js/**/*.js"
     ],
 
     theme: {
@@ -22,5 +25,6 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, require("tw-elements/plugin.cjs")],
+    darkMode: "class"
 };
