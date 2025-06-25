@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckIp;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,6 +38,8 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
 });
 
+
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 
 

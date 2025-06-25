@@ -7,8 +7,11 @@
     <title>CESAE Digital</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- Favicon --}}
     <link rel="icon" href="{{ asset('imagens/cesae-digital-icone.png') }}" type="image/png">
 
+    {{-- Tipografia --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -92,8 +95,9 @@
                         </button>
                         {{-- Subitens --}}
                         <div id="submenu-atividades" class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg">
+                            <a href="#">Check-in Tardio</a>
                             <a href="#">Check-out</a>
-                            <a href="#">Justificação</a>
+                            <a href="#">Faltas</a>
                         </div>
                     </div>
 
@@ -128,6 +132,7 @@
                     <div class="flex-grow"></div>
 
                     <!-- Log Out -->
+                    <form method="POST" action="{{ route('logout') }}">
                     <div
                         class="flex items-center w-full p-2 hover:bg-blue-gray-50 hover:text-white transition-all cursor-pointer font-semibold">
                         <div class="grid mr-4 place-items-center">
@@ -140,7 +145,10 @@
 
                             </svg>
                         </div>
-                        Log Out
+
+                            @csrf
+                            <button type="submit" class="text-white">Log Out</button>
+                        </form>
                     </div>
 
                 </div>
