@@ -3,12 +3,14 @@ import '../css/app.css';
 
 import ExampleComponent from './components/ExampleComponent.vue';
 
-const app = createApp({});
+// Verifica se existe um elemento com id="app"
+const el = document.getElementById('app');
 
-// Aqui registramos um componente (opcional)
-app.component('example-component', ExampleComponent);
-
-console.log('Vue App está a correr...');
-
-app.mount('#app'); // montamos no ID onde quiseres
-
+if (el) {
+    const app = createApp({});
+    app.component('example-component', ExampleComponent);
+    console.log('Vue App está a correr...');
+    app.mount('#app');
+} else {
+    console.log('Vue App não foi montado: #app não encontrado na view.');
+}

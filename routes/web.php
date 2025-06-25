@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCalendarController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminCronogramaController;
+use App\Http\Controllers\Admin\AdminCursoController;
+use App\Http\Controllers\Admin\AdminModuloController;
+use App\Http\Controllers\Admin\AdminPresencaController;
+use App\Http\Controllers\Admin\AdminRelatorioController;
+use App\Http\Controllers\Admin\AdminTurmaController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\CronogramaController;
 use App\Http\Controllers\DisparoPinController;
 use App\Http\Controllers\PresencaController;
@@ -52,24 +61,12 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
 //Rotas que passam pelo middleware CheckRole = formador
 Route::middleware(['auth', 'checkrole:formador'])->group(function () {
-    //dashboard formador
-    Route::get('formador/dashboard', function () {
-        return view('formador.dashboard');
-    })->name('formador.dashboard');
-    //Rota página que mostra info da aula e botão Disparar Pin
-    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('formador.pin');
-    //Rota que guarda o disparo do pin
-    Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
-    //Rota que mostra a duração do pin
-    Route::get('/pin/duracao', function() {
-        return view('formador.duracao-pin');
-    })->name('formador.duracao-pin');
-    //Rota cronograma
-    // Route::get('/formador/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('formador.cronograma');
+    //Rota página do botão disparar PIN
+    Route::get('/formador', [DisparoPinController::class, 'index'])->name('formador.index');
+    Route::post('/pin', [DisparoPinController::class, 'dispararPin'])->name('formador.pin');
+
 });
 
-
-Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 
 

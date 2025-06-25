@@ -9,7 +9,7 @@ class Modulo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome', 'formador_id', 'carga_horaria'];
+    protected $fillable = ['nome', 'turma_id', 'formador_id', 'carga_horaria'];
 
     public function turma()
     {
