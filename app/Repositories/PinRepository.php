@@ -13,10 +13,12 @@ class PinRepository
 
     }
 
-    public funCtion buscarPin($cronograma_id){
-        $pin = Pin::where('cronograma_id', $cronograma_id)->firstOrFail();
-        return $pin;
+    //método procura o valor do PIN de 4 dígitos
+    public function buscarPin($cronograma_id){
+        return Pin::where('cronograma_id', $cronograma_id)->latest()->first();
     }
+
+
 
 
 

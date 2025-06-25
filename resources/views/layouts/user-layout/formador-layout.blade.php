@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 
     <title>Layout acesso users</title>
 
@@ -53,7 +54,7 @@
                     </a>
                 </div>
                 <div id="nav" class="w-full px-6">
-                    <a href="#"
+                    <a href="{{route('formador.pin')}}"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 bg-green-800 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -64,11 +65,24 @@
 
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-lg font-bold leading-5 text-white">Dashboard</span>
-                            <span class="text-sm text-white/50 hidden md:block">Data Overview</span>
+                            <span class="text-lg font-bold leading-5 text-white">Disparar PIN</span>
                         </div>
                     </a>
-                    <a href="#"
+                    {{-- <a href="{{route('formador.duracao-pin')}}"
+                        class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-lg text-slate-300 font-bold leading-5">Duração PIN</span>
+                            <span class="text-sm text-slate-500 hidden md:block"></span>
+                        </div>
+                    </a> --}}
+                    {{-- <a href="#"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -151,7 +165,7 @@
                             <span class="text-lg text-slate-300 font-bold leading-5">Settings</span>
                             <span class="text-sm text-slate-500 hidden md:block">Edit App Settings</span>
                         </div>
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
