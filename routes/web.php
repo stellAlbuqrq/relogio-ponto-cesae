@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckIp;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //Rotas para check-out
     Route::get('/presenca/out', [PresencaController::class, 'presencaMostrarOut'])->name('aluno.presenca-out');
     Route::post('/presenca/checkout', [PresencaController::class, 'presencaCheckOutGuardar'])->name('aluno.checkout');
+
     //Rota check in manual -> sem PIN
     Route::get('presenca/checkin/manual', [PresencaController::class, 'presencaCheckInManual'])->name('aluno.checkin-manual');
     //Rota justificacoes de falta
@@ -42,6 +44,9 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.cronograma');
     //Rota para histórico
     Route::get('/presenca/historico', [PresencaController::class, 'presencaHistorico'])->name('aluno.historico');
+
+
+    //Route::get('/', [PresencaController::class, 'paginaInicial'])->name('aluno.pagina-inicial');
 
 });
 
@@ -63,6 +68,8 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     // Route::get('/formador/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('formador.cronograma');
 });
 
+
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
 
 

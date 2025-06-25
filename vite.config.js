@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
+
+
 export default defineConfig({
     resolve: {
         alias: {
@@ -19,4 +21,13 @@ export default defineConfig({
         }),
         vue(),
     ],
+
+
+// // import { defineConfig } from 'vite'
+// import tailwindcss from '@tailwindcss/vite'
+// export default defineConfig({
+//   plugins: [
+//     tailwindcss(),
+//     // …
+//   ],
 });
