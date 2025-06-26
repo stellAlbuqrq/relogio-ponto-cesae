@@ -1,4 +1,4 @@
-@extends('layouts.user-layout.aluno-layout')
+@extends('layouts.paginaAluno')
 
 @section('content')
     <form action="{{ route('aluno.checkout') }}" method="POST">

@@ -135,13 +135,15 @@ class PresencaController extends Controller
         $horaFim = $periodo === 'manha' ? $horaFimManha : $horaFimTarde;
 
         $agora = Carbon::now();
-        $delaySegundos = $horaFim->diffInSeconds($agora, false);
+        $delaySegundos = $agora->diffInSeconds($horaFim);
 
-        if ($delaySegundos > 0) {
+
+       if ($delaySegundos > 0) {
             //agendar o job para o final da aula
             Log::info('Agendando CheckOutAutomaticoJob com delay de ' . $delaySegundos . ' segundos para aluno ' . $aluno_id);
             CheckOutAutomaticoJob::dispatch($aluno_id, $cronograma->id, $periodo)
-                ->delay(now()->addSeconds($delaySegundos));
+                //->delay(now()->addSeconds(100));
+              ->delay(now()->addSeconds($delaySegundos));
         }
 
         return redirect()->route('aluno.dashboard')->with('mensagem', 'Presença registada com sucesso.');
@@ -205,19 +207,15 @@ class PresencaController extends Controller
         $historico = $this->presencaService->historicoAluno();
 
         //tratar do status
+        //definir status -> Se aluno fez checkIn e checkOut -> presente
+        // se fez só um  -> pendente
+        // se nenhum -> ausente
 
-        ############################ JUNTAR check in e checkout em 1 linha so
-        return view('aluno.historico', [
-            'historico' => $historico
-        ]);
+        return view('aluno.historico', compact('historico'));
 
     }
 
-  public function paginaInicial()
-    {
 
-        return view('aluno.index');
-    }
 
 
 }

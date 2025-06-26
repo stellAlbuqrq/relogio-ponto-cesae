@@ -1,4 +1,4 @@
-@extends('layouts.user-layout.aluno-layout')
+@extends('layouts.paginaAluno')
 
 @section('content')
     <form action="{{ route('aluno.checkin') }}" method="POST">
@@ -19,12 +19,15 @@
             </div>
 
             {{-- Módulo --}}
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
+            @if (isset($cronograma))
                 <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
                     {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
                 </div>
-            </div>
+            @else
+                <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 text-red-600">
+                    Hoje não há aula.
+                </div>
+            @endif
 
             {{-- PIN --}}
             <div>
@@ -59,7 +62,7 @@
 
             {{-- mensagem de check in manual --}}
             @if (session('checkin'))
-                <a href="{{route('aluno.checkin-manual')}}" @method("GET")>
+                <a href="{{ route('aluno.checkin-manual') }}" @method('GET')>
                     <div
                         class="bg-white border border-slate-300 w-max h-20 shadow-lg rounded-md gap-4 p-4 flex flex-row items-center justify-center">
                         <section class="w-6 h-full flex flex-col items-center justify-start">

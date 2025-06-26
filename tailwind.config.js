@@ -25,6 +25,6 @@ export default {
         },
     },
 
-    plugins: [forms, require("tw-elements/plugin.cjs")],
+    plugins: [forms, require("tw-elements/plugin")],
     darkMode: "class"
 };

@@ -22,20 +22,41 @@ class PresencaService
     public function pinJaInserido($cronograma_id)
     {
         return $this->presencarepositorio->buscarCheckIn($cronograma_id);
-
     }
 
     //método verifica se o aluno já fez check-out manual, acao=check-out
-    public function existeCheckOut($cronograma_id){
+    public function existeCheckOut($cronograma_id)
+    {
 
         return $this->presencarepositorio->buscarCheckOut($cronograma_id);
-
     }
 
-    //método para buscar historico de presenças
-    public function historicoAluno(){
+    //método para buscar historico de presenças e verificar o status da aula:presente, pendente, ausente, usa o metodo auxiliar statusCondicao()
+    public function historicoAluno()
+    {
+        $historico = $this->presencarepositorio->buscarHistoricoAluno();
 
-        return $this->presencarepositorio->buscarHistoricoAluno();
+        return $historico->map(function ($item) {
+            $item->status = $this->statusCondicao($item);
+            return $item;
+        });
+    }
 
+    //método auxiliar do statusAula
+    public function statusCondicao($historico)
+    {
+        $hasCheckIn = !is_null($historico->check_in);
+        $hasCheckOut = !is_null($historico->check_out);
+
+        if ($hasCheckIn && $hasCheckOut) {
+            return 'presente';
+        }
+
+        if ($hasCheckIn || $hasCheckOut) {
+            return 'pendente';
+        }
+
+        return 'ausente';
     }
 }
+

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Cronograma extends Model
 {
@@ -34,7 +35,10 @@ class Cronograma extends Model
         return $this->hasMany(Presenca::class);
     }
 
-    public function formador(){
+    public function formador()
+    {
         return $this->belongsTo(User::class);
     }
+
+
 }

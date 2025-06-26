@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Presenca extends Model
 {
@@ -26,4 +27,6 @@ class Presenca extends Model
     {
         return $this->belongsTo(Cronograma::class);
     }
+
+   
 }
