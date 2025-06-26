@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class CheckOutAutomaticoJob implements ShouldQueue
 {
@@ -53,5 +54,6 @@ class CheckOutAutomaticoJob implements ShouldQueue
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
     }
 }

@@ -61,7 +61,7 @@
 
                 <!-- Logo -->
                 <div class="flex justify-center mb-6 mt-5">
-                    <a href="/">
+                    <a href="{{route('aluno.dashboard')}}">
                         <img src="{{ asset('imagens/cesae-digital-pb.png') }}" alt="Logo" class="h-16 w-auto">
                     </a>
                 </div>
@@ -95,9 +95,9 @@
                         </button>
                         {{-- Subitens --}}
                         <div id="submenu-atividades" class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg">
-                            <a href="#">Check-in Tardio</a>
-                            <a href="#">Check-out</a>
-                            <a href="#">Faltas</a>
+                            <a href="{{ route('aluno.presenca') }}">Check-in</a>
+                            <a href="{{ route('aluno.checkin-manual') }}">Check-in Tardio</a>
+                            <a href="{{ route('aluno.presenca-out') }}">Check-out Antecipado</a>
                         </div>
                     </div>
 
@@ -122,9 +122,9 @@
                         </button>
                         {{-- Subitens --}}
                         <div id="submenu-aluno" class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg">
-                            <a href="#">Presenças e Ausências</a>
-                            <a href="#">Histórico</a>
-                            <a href="#">Cronograma</a>
+                            <a href="{{ route('aluno.justificacoes') }}">Faltas</a>
+                            <a href="{{ route('aluno.historico') }}">Histórico</a>
+                            <a href="{{ route('aluno.cronograma') }}">Cronograma</a>
                         </div>
                     </div>
 

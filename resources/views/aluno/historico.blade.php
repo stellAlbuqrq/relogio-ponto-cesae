@@ -1,4 +1,4 @@
-@extends('layouts.user-layout.aluno-layout')
+@extends('layouts.paginaAluno')
 
 @section('content')
     {{-- <link rel="stylesheet"
@@ -20,7 +20,6 @@
                             <th class="p-4 text-left min-w-[100px]">Check‑In</th>
                             <th class="p-4 text-left min-w-[100px]">Check‑Out</th>
                             <th class="p-4 text-left min-w-[100px]">Status</th>
-                            <th class="p-4 text-left min-w-[100px]">Justificar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,37 +35,48 @@
                                     {{ $presenca->cronograma->formador->nome }}
                                 </td>
                                 <td class="p-4 text-left">
-                                    @if ($presenca->acao === 'check_in')
-                                        {{ $presenca->created_at->format('H:i') }}
-                                    @endif
+                                    {{ $presenca->check_in ? $presenca->check_in->format('H:i') : '-' }}
                                 </td>
                                 <td class="p-4 text-left">
-                                    @if ($presenca->acao === 'check_out')
-                                        {{ $presenca->created_at->format('H:i') }}
-                                    @endif
+                                    {{ $presenca->check_out ? $presenca->check_out->format('H:i') : '-' }}
                                 </td>
                                 <td class="p-4 text-left">
+                                    @switch($presenca->status)
+                                        @case('presente')
+                                            <span class="text-green-700 bg-green-100 rounded-lg px-4 py-2 font-semibold">
+                                                Presente
+                                            </span>
+                                        @break
 
-                                </td>
-                                <td class="p-4 text-center">
-                                    <button class="text-blue-600 hover:text-blue-800 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline-block" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15M4.5 12h15" />
-                                        </svg>
-                                    </button>
+                                        @case('pendente')
+                                            <span class="text-yellow-700 bg-yellow-100 rounded-lg px-4 py-2 font-semibold">
+                                                Pendente
+                                            </span>
+                                        @break
+
+                                        @case('ausente')
+                                            <span class="text-red-700 bg-red-100 rounded-lg px-4 py-2 font-semibold">
+                                                Ausente
+                                            </span>
+                                        @break
+
+                                        @default
+                                            <span class="text-gray-700 bg-gray-100 rounded-lg px-4 py-2 font-semibold">
+                                                Desconhecido
+                                            </span>
+                                    @endswitch
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="p-6 text-center text-gray-500">
-                                    Ainda não há presenças registadas.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="p-6 text-center text-gray-500">
+                                        Ainda não há presenças registadas.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection

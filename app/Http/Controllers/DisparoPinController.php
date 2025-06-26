@@ -65,16 +65,6 @@ class DisparoPinController extends Controller
 
         $horaExpiracao = Carbon::now()->addMinutes(10)->format('H:i:s');       // Definir tempo de expiração do PIN (10 minutos)
 
-        //dados guardados na session 'dadosPin'
-        // session([
-        //     'dadosPin' => [
-        //         'pin' => $pin,
-        //         'horaExpiracao' => $horaExpiracao,
-        //     ]
-        // ]);
-
-        //no FRONT-END mostrar ao formador a hora que o PIN expira
-
         //Adicionar o Pin na tabela PIN:
         Pin::create([
             'cronograma_id' => $cronograma_id,
