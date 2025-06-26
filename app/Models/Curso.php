@@ -10,11 +10,15 @@ class Curso extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
+        'nome', 'nome'
     ];
 
     public function turmas()
     {
         return $this->hasMany(Turma::class);
+    }
+    public function modulos()
+    {
+        return $this->hasMany(Modulo::class);
     }
 }

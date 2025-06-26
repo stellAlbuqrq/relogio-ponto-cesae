@@ -111,12 +111,12 @@
                                 <span class="text-sm text-slate-500 hidden md:block">Detalhes da falta</span>
                             </div>
                         </button>
-                        <div id="justificacaoSubmenu" class="ml-8 mt-2 hidden flex flex-col space-y-2 pb-2">
+                        {{-- <div id="justificacaoSubmenu" class="ml-8 mt-2 hidden flex flex-col space-y-2 pb-2">
                             <a href="{{ route('aluno.checkin-manual') }}"
                                 class="text-slate-300 hover:text-white transition text-sm">Check-in Manual</a>
                             <a href="{{ route('aluno.justificacoes') }}"
                                 class="text-slate-300 hover:text-white transition text-sm">Faltas</a>
-                        </div>
+                        </div> --}}
                     </div>
                     <a href="{{ route('aluno.cronograma') }}"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
