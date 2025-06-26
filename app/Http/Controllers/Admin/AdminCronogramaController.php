@@ -11,8 +11,29 @@ class AdminCronogramaController extends Controller
 {
     public function index()
     {
-        return view('admin.cronogramas.index');
+         $cronogramas = Cronograma::with(['modulo','formador'])->get();
+
+
+
+
+        $cronogramaEventos = $cronogramas->map(function ($cronograma) {
+            // Concatena a data com a hora para formar o datetime completo
+            $startDateTime = $cronograma->data . 'T' . $cronograma->hora_inicio;
+            $endDateTime = $cronograma->data . 'T' . $cronograma->hora_fim;
+            return [
+                'id'    => $cronograma->id,
+                'title' => $cronograma->modulo->nome, // O nome do evento
+                'start' => $startDateTime,
+                'end' => $endDateTime,
+                // Adicione outras propriedades se desejar, como 'color'
+                 'color' => '#f0ad4e' // Exemplo de cor para este evento
+            ];
+        })->all(); // Converte a coleção para um array simples
+        return view('admin.cronogramas.index', compact('cronogramaEventos'));
     }
+
+
+
 
     public function eventos(Request $request)
     {
@@ -36,15 +57,5 @@ class AdminCronogramaController extends Controller
         return response()->json($events);
     }
 
-    public function recursos()
-    {
-        $turmas = Turma::all();
 
-        return response()->json($turmas->map(function ($t) {
-            return [
-                'id' => $t->id,
-                'title' => $t->nome,
-            ];
-        }));
-    }
 }

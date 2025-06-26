@@ -10,9 +10,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminRelatorioController extends Controller
 {
-    public function exportarPresencasCSV()
+public function exportarPresencasCSV()
     {
-        $presencas = Presenca::with(['user', 'cronograma.modulo.curso'])->get();
+
+        $presencas = Presenca::with(['aluno', 'cronograma.modulo.curso'])->get();
 
         $filePath = storage_path('app/presencas_export.csv');
 
@@ -21,9 +22,10 @@ class AdminRelatorioController extends Controller
             ->addRows(
                 $presencas->map(function ($p) {
                     return [
-                        'Aluno'  => $p->user->name ?? '',
-                        'Curso'  => $p->cronograma->modulo->curso->nome ?? '',
-                        'Módulo' => $p->cronograma->modulo->nome ?? '',
+
+                        'Aluno'  => $p->aluno->nome ?? 'N/A', // Usar 'N/A' ou '' para casos onde o aluno pode ser nulo
+                        'Curso'  => $p->cronograma->modulo->turma->curso->nome ?? 'N/A',
+                        'Módulo' => $p->cronograma->modulo->nome ?? 'N/A',
                         'Data'   => $p->created_at->format('d/m/Y H:i'),
                         'Estado' => $p->estado,
                     ];
@@ -35,7 +37,7 @@ class AdminRelatorioController extends Controller
 
     public function exportarPresencasPDF()
 {
-    $presencas = Presenca::with(['user', 'cronograma.modulo.curso'])->get();
+    $presencas = Presenca::with(['aluno', 'cronograma.modulo.curso'])->get();
 
     $pdf = Pdf::loadView('admin.relatorios.presencas_pdf', compact('presencas'));
 

@@ -47,18 +47,13 @@
                             Dashboard</a></li>
                     <li><a href="{{ route('admin.usuarios.index') }}" class="block py-2 hover:text-green-400">👥
                             Usuários</a></li>
-                    <li><a href="{{ route('admin.cursos.index') }}" class="block py-2 hover:text-green-400">📚
-                            Cursos</a></li>
-                    <li><a href="{{ route('admin.turmas.index') }}" class="block py-2 hover:text-green-400">📚
-                            Turmas</a></li>
-                    <li><a href="{{ route('admin.modulos.index') }}" class="block py-2 hover:text-green-400">🧩
-                            Módulos</a></li>
-                    <li><a href="{{ route('admin.presencas.index') }}" class="block py-2 hover:text-green-400">✅
-                            Presenças</a></li>
-                    <li><a href="{{ route('admin.relatorios.presencas.pdf') }}"
-                            class="block py-2 hover:text-green-400">📄 Exportar PDF</a></li>
+                    <li><a href="{{ route('admin.cursos.index') }}" class="block py-2 hover:text-green-400">🎓 Cursos</a></li>
+                    <li><a href="{{ route('admin.turmas.index') }}" class="block py-2 hover:text-green-400">🏫 Turmas</a></li>
+                    <li><a href="{{ route('admin.modulos.index') }}" class="block py-2 hover:text-green-400">📦 Módulos</a></li>
+                    <li><a href="{{ route('admin.cronogramas.index') }}" class="block py-2 hover:text-green-400">🗓️ Cronograma</a></li>
+                    <li><a href="{{ route('admin.presencas.index') }}" class="block py-2 hover:text-green-400">📝 Presenças</a></li>
                     <li><a href="{{ route('admin.relatorios.presencas.csv') }}"
-                            class="block py-2 hover:text-green-400">📊 Exportar CSV</a></li>
+                            class="block py-2 hover:text-green-400">📤 Relatório Presenças (CSV)</a></li>
                 </ul>
             </nav>
         </aside>
