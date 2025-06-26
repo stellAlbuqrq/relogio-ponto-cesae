@@ -25,3 +25,4 @@ class CronogramaController extends Controller
         return view('aluno.dashboard', compact('cronogramahoje'));
     }
 }
+

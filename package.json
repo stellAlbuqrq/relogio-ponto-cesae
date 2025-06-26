@@ -20,6 +20,10 @@
         "vite": "^6.3.5"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.17",
+        "@fullcalendar/daygrid": "^6.1.17",
+        "@fullcalendar/list": "^6.1.17",
+        "@fullcalendar/timegrid": "^6.1.17",
         "@material-tailwind/html": "^3.0.0-beta.7",
         "@vitejs/plugin-vue": "^5.2.4",
         "tw-elements": "^2.0.0",

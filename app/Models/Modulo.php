@@ -9,7 +9,7 @@ class Modulo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome', 'formador_id', 'carga_horaria'];
+    protected $fillable = ['nome', 'turma_id', 'formador_id', 'carga_horaria', 'curso_id'];
 
     public function turma()
     {
@@ -29,5 +29,10 @@ class Modulo extends Model
     public function cronogramas()
     {
         return $this->hasMany(Cronograma::class);
+
+    }
+    public function curso()
+    {
+               return $this->belongsTo(Curso::class);
     }
 }

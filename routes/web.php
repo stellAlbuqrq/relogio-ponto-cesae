@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCalendarController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminCronogramaController;
+use App\Http\Controllers\Admin\AdminCursoController;
+use App\Http\Controllers\Admin\AdminModuloController;
+use App\Http\Controllers\Admin\AdminPresencaController;
+use App\Http\Controllers\Admin\AdminRelatorioController;
+use App\Http\Controllers\Admin\AdminTurmaController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\CronogramaController;
 use App\Http\Controllers\DisparoPinController;
 use App\Http\Controllers\JustificarController;
@@ -9,7 +18,6 @@ use App\Http\Middleware\CheckIp;
 use App\Http\Middleware\CheckRole;
 use App\Models\Cronograma;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -28,6 +36,7 @@ Route::middleware('auth')->group(function () {
 //Rotas que passam pelo middleware CheckRole = aluno
 Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //dashboard aluno
+    Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     //Rotas para check-in
     Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
@@ -51,9 +60,11 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
 });
 
+
 //Rotas que passam pelo middleware CheckRole = formador
 Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     //dashboard formador
+    Route::get('/formador', function () {
     Route::get('/formador', function () {
         return view('formador.dashboard');
     })->name('formador.dashboard');
@@ -72,6 +83,40 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
+
+//Rotas que passam pelo middleware CheckRole = admin
+
+Route::middleware(['auth', 'checkrole:admin'])
+     ->prefix('admin')
+     ->name('admin.')
+     ->group(function () {
+
+    // Dashboard
+    Route::get('/',           [AdminController::class,'dashboard'])->name('dashboard');
+    Route::get('dashboard',   [AdminController::class,'index'])    ->name('index');
+
+    // CRUD Usuários / Cursos / Módulos / Turmas / Presenças
+    Route::resource('usuarios',   AdminUserController::class);
+    Route::resource('cursos',     AdminCursoController::class);
+    Route::resource('modulos',    AdminModuloController::class);
+    Route::resource('turmas',     AdminTurmaController::class);
+    Route::resource('presencas',  AdminPresencaController::class)->except(['destroy']);
+
+    // CRUD Cronogramas convencional
+    Route::resource('cronogramas', AdminCronogramaController::class);
+    // -> gera admin.cronogramas.index, create, store, show, edit, update, destroy
+
+
+    // Visualização de presenças
+    Route::get('presencas', [AdminPresencaController::class, 'index'])->name('presencas.index');
+
+    // Relatórios
+    Route::get('relatorios', [AdminRelatorioController::class, 'index'])->name('relatorios.index');
+    Route::get('relatorios/presencas/csv', [AdminRelatorioController::class, 'exportarPresencasCSV'])->name('relatorios.presencas.csv');
+    Route::get('relatorios/presencas/pdf', [AdminRelatorioController::class, 'exportarPresencasPDF'])->name('relatorios.presencas.pdf');
+
+
+});
 
 
 
