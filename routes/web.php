@@ -68,6 +68,7 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     Route::get('/formador', function () {
         return view('formador.dashboard');
     })->name('formador.dashboard');
+    })->name('formador.dashboard');
     //Rota página que mostra info da aula e botão Disparar Pin
     Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('formador.pin');
     //Rota que guarda o disparo do pin
