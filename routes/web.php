@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return view('auth.login');
+})->name('auth.login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -26,9 +26,15 @@ Route::middleware('auth')->group(function () {
 //Rotas que passam pelo middleware CheckRole = aluno
 Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //dashboard aluno
-    Route::get('/aluno/dashboard', function () {
-        return view('aluno.dashboard');
-    })->name('aluno.dashboard');
+    // Route::get('/aluno', function () {
+    //     return view('aluno.index');
+    // })->name('aluno.dashboard');
+
+    //dashboard aluno
+    Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
+
+
+
     //Rotas para check-in
     Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
     Route::post('/presenca/checkin', [PresencaController::class, 'presencaCheckInGuardar'])->name('aluno.checkin');
@@ -45,15 +51,18 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //Rota para histórico
     Route::get('/presenca/historico', [PresencaController::class, 'presencaHistorico'])->name('aluno.historico');
 
+    //Rota para a página inicial para mostrar as aulas do dia
+    // Route::get('/aluno', [CronogramaController::class, 'cronograma']);
 
-    //Route::get('/', [PresencaController::class, 'paginaInicial'])->name('aluno.pagina-inicial');
+
+    // Route::get('/', [PresencaController::class, 'paginaInicial'])->name('aluno.pagina-inicial');
 
 });
 
 //Rotas que passam pelo middleware CheckRole = formador
 Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     //dashboard formador
-    Route::get('formador/dashboard', function () {
+    Route::get('formador', function () {
         return view('formador.dashboard');
     })->name('formador.dashboard');
     //Rota página que mostra info da aula e botão Disparar Pin
@@ -61,7 +70,7 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     //Rota que guarda o disparo do pin
     Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
     //Rota que mostra a duração do pin
-    Route::get('/pin/duracao', function() {
+    Route::get('/pin/duracao', function () {
         return view('formador.duracao-pin');
     })->name('formador.duracao-pin');
     //Rota cronograma
@@ -69,7 +78,9 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 });
 
 
-Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
+
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('login');
 
 
 

@@ -13,7 +13,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();  // gera novo token CSRF
 
-        return redirect('/login');
+        return redirect('auth.login');
     }
 
 }

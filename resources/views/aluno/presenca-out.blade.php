@@ -1,24 +1,124 @@
-@extends('layouts.user-layout.aluno-layout')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-out Antecipado</title>
+
+    {{-- Fonte --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+
+    {{-- Daisy UI --}}
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+
+@extends('layouts.paginaAluno')
 
 @section('content')
-    <form action="{{ route('aluno.checkout') }}" method="POST">
+    <div>
+        <h1 class="ml-8 mt-4 mb-12 font-bold text-[#40155E] text-4xl">Faça o seu check-out</h1>
+    </div>
+
+{{-- Formulário --}}
+    <div class="relative items-center flex flex-col justify-center">
+        <div class="relative flex w-full max-w-[48rem] flex-col rounded-lg bg-white border border-slate-200 shadow-sm">
+            <div class="relative items-center flex flex-col justify-center text-white h-28 rounded-md bg-[#232526]">
+                <h5 class="text-white text-3xl font-bold">
+                    Check-out Antecipado
+                </h5>
+            </div>
+            <div class="p-6">
+                <div class="block overflow-visible">
+
+                    <div
+                        class="relative block w-full overflow-hidden !overflow-x-hidden !overflow-y-visible bg-transparent">
+                        <div role="tabpanel" data-value="card">
+
+                            <form class="mt-3 flex flex-col" action="{{ route('aluno.checkout') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                {{-- Hora --}}
+                                <div class="mb-5">
+                                    {{-- <p class="block mb-2 text-lg text-[#232526] font-bold">Hora</p> --}}
+                                    <div id="hora" class="w-full px-3 py-2 font-bold text-4xl relative items-center flex flex-col justify-center"></div>
+                                </div>
+                                {{-- Data --}}
+                                <div class="mb-5">
+                                    <p class="block text-lg text-[#232526] font-bold">Data</p>
+                                    <div id="data" class="w-full px-3 py-2 text-gray-700 font-bold"></div>
+                                </div>
+
+                                {{-- Módulo --}}
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-lg text-[##232526] font-bold">Módulo</p>
+                                    <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 font-medium">
+                                       {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
+                                    </div>
+                                </div>
+
+                                {{-- Comentário --}}
+                                <div>
+                                    <label for="comentario"
+                                        class="block mb-2 text-lg text-[#232526] font-bold">Justificação</label>
+                                </div>
+
+
+                                <div>
+                                    <div class="relative w-full min-w-[200px] mb-3">
+                                        <textarea id="comentario" name="comentario" rows="4"
+                                            class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-gray-300 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-lg font-normal text-gray-800 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                                            placeholder=" "></textarea>
+
+                                        <label for="comentario"
+                                            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm
+                                             peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-gray-500">
+                                            Escreva a sua justificação aqui...
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {{-- Botão --}}
+                                <div class="relative items-center flex flex-col justify-center mb-2">
+                                    <button type="submit" name="acao" value="check_out"
+                                        class="w-fit bg-[#232526] text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-[#131414] focus:outline-none focus:ring">
+                                        Check-out
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    {{-- <form action="{{ route('aluno.checkout') }}" method="POST">
         @csrf
         <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
             <h2 class="text-2xl font-semibold text-center">Check Out</h2>
 
-            {{-- Hora --}}
+            Hora
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Hora</p>
                 <div id="hora" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
 
-            {{-- Data --}}
+            Data
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Data</p>
                 <div id="data" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
 
-            {{-- Módulo --}}
+            Módulo
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
                 <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
@@ -26,7 +126,7 @@
                 </div>
             </div>
 
-            {{-- Comentário --}}
+            Comentário
             <div>
                 <label for="comentario" class="block text-gray-700 text-sm font-bold mb-1">Comentário</label>
                 <textarea id="comentario" name="comentario" rows="4"
@@ -34,11 +134,11 @@
                     placeholder="Escreve aqui o teu comentário..."></textarea>
             </div>
 
-            {{-- Botão --}}
+            Botão
             <button type="submit" name="acao" value="check_out"
                 class="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring">
                 Check‑out
-            </button>
+            </button> --}}
 
             {{-- Mensagem de erro --}}
             @if (session('mensagem'))
