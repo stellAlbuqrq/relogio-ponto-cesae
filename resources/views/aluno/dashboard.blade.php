@@ -15,6 +15,23 @@
         <h1 class="ml-8 mt-4 mb-9 font-bold text-[#6A239B] text-4xl">Área do Aluno</h1>
     </div>
 
+    {{-- Mensagem de sucesso --}}
+    @if (session('mensagem'))
+        <div class="flex items-start space-x-3 bg-green-100 border border-green-200 text-green-800 rounded-lg p-4 shadow-sm">
+            <svg class="w-6 h-6 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-7.364 7.364a1 1 0 01-1.414 0L3.293 9.414a1 1 0 011.414-1.414L9 12.293l6.293-6.293a1 1 0 011.414 0z" />
+            </svg>
+            <div class="flex-1 text-sm font-medium">
+                {{ session('mensagem') }}
+            </div>
+            <button type="button" onclick="this.parentElement.remove()"
+                class="text-green-500 hover:text-green-700 focus:outline-none text-lg font-bold leading-none">
+                &times;
+            </button>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8">
 
         {{-- Check-in Tardio --}}
@@ -57,7 +74,4 @@
                 </button>
             </div>
         </div>
-
-
-    </div>
 @endsection

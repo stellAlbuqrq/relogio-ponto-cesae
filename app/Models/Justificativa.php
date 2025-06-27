@@ -9,8 +9,17 @@ class Justificativa extends Model
 {
     use HasFactory;
 
+
+    protected $casts = [
+        'data_justificada' => 'date',  // para converter para Carbon
+    ];
+
+
     protected $fillable = [
-        'presenca_id',
+        'aluno_id',
+        'cronograma_id',
+        'periodo',
+        'data_justificada',
         'texto',
         'anexo',
         'status',
@@ -26,5 +35,15 @@ class Justificativa extends Model
     public function avaliador()
     {
         return $this->belongsTo(User::class, 'avaliado_por');
+    }
+
+    public function aluno()
+    {
+        return $this->belongsTo(User::class, 'aluno_id');
+    }
+
+    public function cronograma()
+    {
+        return $this->belongsTo(Cronograma::class, 'cronograma_id');
     }
 }

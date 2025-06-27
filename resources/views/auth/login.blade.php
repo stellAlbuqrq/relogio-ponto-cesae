@@ -20,62 +20,71 @@
 
 <x-guest-layout>
 
-        <section class="min-h-screen bg-[#4b3070] dark:bg-neutral-800">
-            <div class="flex h-full items-center justify-center text-neutral-800 dark:text-neutral-200">
-                <div class="w-full max-w-6xl flex rounded-lg shadow-lg overflow-hidden bg-white dark:bg-neutral-900">
-                    <!-- Left Side: Form -->
-                    <div class="w-full lg:w-6/12 p-12">
-                        <!-- Logo -->
-                        <div class="text-center mb-6">
-                            <img class="mx-auto w-60" src="{{ asset('imagens/cesae-digital-logo.svg') }}"
-                                alt="Logo" />
-                            <h4 class="mt-4 text-xl font-semibold">Bem-vindo(a) ao Cesae Digital</h4>
+    <section class="min-h-screen bg-[#4b3070] dark:bg-neutral-800">
+        <div class="flex h-full items-center justify-center text-neutral-800 dark:text-neutral-200">
+            <div class="w-full max-w-6xl flex rounded-lg shadow-lg overflow-hidden bg-white dark:bg-neutral-900">
+                <!-- Left Side: Form -->
+                <div class="w-full lg:w-6/12 p-12">
+                    <!-- Logo -->
+                    <div class="text-center mb-6">
+                        <img class="mx-auto w-60" src="{{ asset('imagens/cesae-digital-logo.svg') }}" alt="Logo" />
+                        <h4 class="mt-4 text-xl font-semibold">Bem-vindo(a) ao Cesae Digital</h4>
+                    </div>
+
+                    <!-- Formulário -->
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <p class="mb-6 text-md font-medium">Por favor, faça login com seus dados:</p>
+
+                        <!-- Email -->
+                        <div class="mb-4 font-bold">
+                            <label for="email" class="block mb-2">Email</label>
+                            <input type="email" id="email" name="email"
+                                class="w-full rounded-md p-3 bg-gray-100 dark:bg-neutral-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                required />
                         </div>
 
-                        <!-- Formulário -->
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <p class="mb-6 text-md font-medium">Por favor, faça login com seus dados:</p>
+                        <!-- Password -->
+                        <div class="mb-4 font-bold">
+                            <label for="password" class="block mb-2">Senha</label>
+                            <input type="password" id="password" name="password"
+                                class="w-full rounded-md p-3 bg-gray-100 dark:bg-neutral-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                                required />
+                        </div>
 
-                            <!-- Email -->
-                            <div class="mb-4 font-bold">
-                                <label for="email" class="block mb-2">Email</label>
-                                <input type="email" id="email" name="email"
-                                    class="w-full rounded-md p-3 bg-gray-100 dark:bg-neutral-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    required />
-                            </div>
+                        <!-- Remember Me -->
+                        <div class="block mt-4">
+                            <label for="remember_me" class="inline-flex items-center">
+                                <input id="remember_me" type="checkbox"
+                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                    name="remember">
+                                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                            </label>
+                        </div>
 
-                            <!-- Password -->
-                            <div class="mb-4 font-bold">
-                                <label for="password" class="block mb-2">Senha</label>
-                                <input type="password" id="password" name="password"
-                                    class="w-full rounded-md p-3 bg-gray-100 dark:bg-neutral-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                                    required />
-                            </div>
+                        <!-- Botão -->
+                        <div class="mt-6">
+                            <button type="submit"
+                                class="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-md transition duration-200">
+                                Entrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
-                            <!-- Botão -->
-                            <div class="mt-6">
-                                <button type="submit"
-                                    class="w-full bg-purple-700 hover:bg-purple-800 text-white py-3 rounded-md transition duration-200">
-                                    Entrar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Right Side: Imagem -->
-                    <div class="hidden lg:block bg-cover bg-center lg:w-9/12"
-                        style="background-image: url('{{ asset('imagens/imagem-de-login.jpg') }}')">
-                    </div>
+                <!-- Right Side: Imagem -->
+                <div class="hidden lg:block bg-cover bg-center lg:w-9/12"
+                    style="background-image: url('{{ asset('imagens/imagem-de-login.jpg') }}')">
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
 
 
 
 
-        {{-- <!-- Session Status -->
+    {{-- <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <form method="POST" action="{{ route('login') }}">
@@ -120,10 +129,10 @@
                     {{ __('Log in') }}
                 </x-primary-button>
             </div> --}}
-        {{-- </form> --}}
+    {{-- </form> --}}
 
 
 
-        <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+    <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 
 </x-guest-layout>

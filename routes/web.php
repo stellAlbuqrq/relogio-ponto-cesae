@@ -20,15 +20,36 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckIp;
 use App\Http\Middleware\CheckRole;
 use App\Models\Cronograma;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
 })->name('auth.login');
 
+
+//dashboard especifico dependendo do role
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+
+    // Redireciona baseado no role
+    switch ($user->role) {
+        case 'aluno':
+            return redirect()->route('aluno.dashboard');
+
+        case 'formador':
+            return redirect()->route('formador.dashboard');
+
+        case 'admin':
+            return redirect()->route('admin.dashboard');
+
+        default:
+            // Se não tiver role definido, logout
+            Auth::logout();
+            return redirect()->route('auth.login')->with('error', 'Role não definido');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,7 +60,6 @@ Route::middleware('auth')->group(function () {
 //Rotas que passam pelo middleware CheckRole = aluno
 Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //dashboard aluno
-    Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     //Rotas para check-in
     Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
@@ -52,11 +72,10 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
      //Rota para histórico
     Route::get('/presenca/historico', [PresencaController::class, 'presencaHistorico'])->name('aluno.historico');
 
-
-    //Rota justificacoes de falta de check-in
-    Route::get('presenca/falta/checkin', [JustificarController::class, 'justificarFaltaCheckIn'])->name('aluno.falta-checkin');
     //Rota justificacoes de falta
-    Route::get('presenca/justificacoes', [JustificarController::class, 'justificarFaltas'])->name('aluno.justificacoes');
+    Route::get('/justificacoes', [JustificarController::class, 'justificarFaltas'])->name('aluno.justificacoes');
+
+    Route::post('/justificacoes/guardar', [JustificarController::class, 'justificarGuardar'])->name('aluno.justificacoes-guardar');
 
     //Rota cronograma
     Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.cronograma');
@@ -91,6 +110,12 @@ Route::middleware(['auth', 'checkrole:formador'])
     //Rota para histórico formador
    Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('presencas');
 
+    //Rota para ver justificacoes dos alunos
+    Route::get('/ver/justificacoes', [JustificarController::class, 'mostrarJustificacoes'])->name('formador.justificacoes');
+    //Rota para aceitar e rejeitar justificacoes
+    Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
+    Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
+
 });
 
 
@@ -98,7 +123,6 @@ Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->
 
 
 //Rotas que passam pelo middleware CheckRole = admin
-
 Route::middleware(['auth', 'checkrole:admin'])
      ->prefix('admin')
      ->name('admin.')

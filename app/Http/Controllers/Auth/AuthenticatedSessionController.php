@@ -24,21 +24,24 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+$request->authenticate();
 
         $request->session()->regenerate();
 
         $user = $request->user();
 
-        if ($user->role === 'aluno') {
-            return redirect()->route('aluno.dashboard');
-        } elseif ($user->role === 'formador') {
-            return redirect()->route('formador.dashboard');
-            ############## INCLUIR DASHBOARD ADMIN
-        } else {
-            return redirect()->route('auth.login')->withErrors([
-                'email' => 'O seu perfil não tem uma role válida.',
-            ]);
+        switch ($user->role) {
+            case 'aluno':
+                return redirect()->route('aluno.dashboard');
+            case 'formador':
+                return redirect()->route('formador.dashboard');
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            default:
+                Auth::logout(); // importante para evitar sessão ativa inválida
+                return redirect()->route('auth.login')->withErrors([
+                    'email' => 'O seu perfil não tem uma role válida.',
+                ]);
         }
     }
 
@@ -53,6 +56,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('auth.login');
     }
 }

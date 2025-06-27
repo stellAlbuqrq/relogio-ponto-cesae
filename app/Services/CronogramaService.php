@@ -37,9 +37,15 @@ class CronogramaService
         return $this->cronogramaRepositorio->buscarIdDoDiaDoCronograma($dataAgora, $horaAgora);
     }
 
-    //método para buscar os 2 cronograma por dia, este será auxiliar para o comando que faz checkout automatico
-    // public function obterCronogramas($hoje){
+    //método para buscar o cronograma especifico do dia que o aluno quer justificar
+    public function obterCronograma($dataJustificacao, $horaInicio){
 
-    //     return $this->cronogramaRepositorio->buscarCronogramasDoDia($hoje);
-    // }
+        return $this->cronogramaRepositorio->buscarCronogramaJustificacao($dataJustificacao,$horaInicio);
+    }
+
+    //método para buscar os cronogramas por formador
+    public function obterCronogramaFormador($formador_id){
+
+        return $this->cronogramaRepositorio->buscarCronogramaPorFormador($formador_id);
+    }
 }

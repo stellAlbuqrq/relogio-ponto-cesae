@@ -42,6 +42,13 @@ class PresencaService
         });
     }
 
+    //método para verificar se o aluno tem presença, se sim, não precisa de justificacao, usa o método auxiliar statusCondicao()
+    public function temPresenca($cronograma_id){
+
+        return $this->presencarepositorio->buscarPresencaAluno($cronograma_id);
+
+    }
+
     //método auxiliar do statusAula
     public function statusCondicao($historico)
     {
