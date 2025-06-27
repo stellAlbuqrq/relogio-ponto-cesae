@@ -58,5 +58,22 @@ class PresencaService
 
         return 'ausente';
     }
+
+   public function historicoFormador($formadorId, $filtros)
+{
+    $historico = $this->presencarepositorio->buscarHistoricoFormador($formadorId, $filtros);
+
+    return $historico
+        ->map(function ($item) {
+            $item->status = $this->statusCondicao($item);
+            return $item;
+        })
+        ->filter(function ($item) use ($filtros) {
+            if (!empty($filtros['status'])) {
+                return $item->status === $filtros['status'];
+            }
+            return true;
+        });
+}
 }
 

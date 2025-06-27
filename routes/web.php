@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\AdminTurmaController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\CronogramaController;
 use App\Http\Controllers\DisparoPinController;
+use App\Http\Controllers\Formador\FormadorCronogramaController;
+use App\Http\Controllers\Formador\FormadorPresencaController;
+use App\Http\Controllers\FormadorController;
 use App\Http\Controllers\JustificarController;
 use App\Http\Controllers\PresencaController;
 use App\Http\Controllers\ProfileController;
@@ -62,23 +65,32 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
 
 //Rotas que passam pelo middleware CheckRole = formador
-Route::middleware(['auth', 'checkrole:formador'])->group(function () {
-    //dashboard formador
-    Route::get('/formador', function () {
-    Route::get('/formador', function () {
+Route::middleware(['auth', 'checkrole:formador'])
+    ->prefix('formador')
+    ->name('formador.')
+    ->group(function () {
+
+    // Dashboard do Formador
+    Route::get('/', function () {
         return view('formador.dashboard');
-    })->name('formador.dashboard');
-    })->name('formador.dashboard');
-    //Rota página que mostra info da aula e botão Disparar Pin
-    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('formador.pin');
-    //Rota que guarda o disparo do pin
-    Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
-    //Rota que mostra a duração do pin
-    Route::get('/pin/duracao', function() {
+    })->name('dashboard');
+
+    // Página que mostra info da aula e botão Disparar PIN
+    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('pin');
+
+    // Ação que guarda o disparo do PIN
+    Route::post('/disparar-pin', [DisparoPinController::class, 'dispararPin'])->name('disparo-pin');
+
+    // Página que mostra a duração do PIN
+    Route::get('/pin/duracao', function () {
         return view('formador.duracao-pin');
-    })->name('formador.duracao-pin');
-    //Rota cronograma
-    // Route::get('/formador/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('formador.cronograma');
+    })->name('duracao-pin');
+
+    // CRUD convencional de Cronogramas
+    Route::resource('cronogramas', FormadorCronogramaController::class);
+    //Rota para histórico formador
+   Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('presencas');
+
 });
 
 
