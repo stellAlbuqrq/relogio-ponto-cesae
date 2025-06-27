@@ -95,6 +95,7 @@
             {{-- Módulo --}}
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
+                @if (@isset($cronograma))
                 <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
                     {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
                 </div>
