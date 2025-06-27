@@ -23,8 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 })->name('auth.login');
-    return view('auth.login');
-})->name('auth.login');
+
 
 //dashboard especifico dependendo do role
 Route::get('/dashboard', function () {
@@ -58,7 +57,6 @@ Route::middleware('auth')->group(function () {
 //Rotas que passam pelo middleware CheckRole = aluno
 Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //dashboard aluno
-    Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
     //Rotas para check-in
     Route::get('/presenca', [PresencaController::class, 'presencaMostrar'])->name('aluno.presenca');
