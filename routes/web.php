@@ -17,7 +17,7 @@ use App\Http\Controllers\FormadorController;
 use App\Http\Controllers\JustificarController;
 use App\Http\Controllers\PresencaController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\CheckIp;
+use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckRole;
 use App\Models\Cronograma;
 use Illuminate\Support\Facades\Auth;
@@ -119,7 +119,7 @@ Route::middleware(['auth', 'checkrole:formador'])
 });
 
 
-Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //Rotas que passam pelo middleware CheckRole = admin
