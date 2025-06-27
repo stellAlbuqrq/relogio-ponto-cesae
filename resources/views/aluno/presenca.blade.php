@@ -1,25 +1,100 @@
-@extends('layouts.paginaAluno')
+<head>
+    {{-- Fonte --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+
+</head>
+
+
+@extends('layouts.paginaNeutra')
 
 @section('content')
-    <form action="{{ route('aluno.checkin') }}" method="POST">
+    <div class="min-h-screen flex items-center justify-center">
+        <div
+            class="mx-auto w-1/2 px-28 rounded-lg bg-white p-6 shadow-4 dark:bg-surface-dark">
+
+            <!-- Logo -->
+            <div class="text-center mb-10 mt-5">
+                <img class="mx-auto w-60" src="{{ asset('imagens/cesae-digital-logo.svg') }}" alt="Logo" />
+                <h4 class="mt-10 mb-2 text-3xl text-[#6A239B] font-bold">Faça o seu check-in</h4>
+            </div>
+
+            <form action="{{ route('aluno.checkin') }}" method="POST">
+                @csrf
+                {{-- <h1 class="text-5xl font-bold text-center mb-11 text-[#6A239B]">Check-in</h1> --}}
+
+                <div class="flex justify-center gap-20 text-center mb-4">
+
+                    <!--Data-->
+                    <div class="relative mb-6 text-xl" data-twe-input-wrapper-init>
+                        <p class="block text-xl text-[#6A239B] font-bold">Data</p>
+                        <div id="data" class="w-full px-3 py-2 text-[#232526]"></div>
+                    </div>
+
+                    <!--Horário-->
+                    <div class="relative mb-6 text-xl" data-twe-input-wrapper-init>
+                        <p class="block text-xl text-[#6A239B] font-bold">Horário</p>
+                        <div id="hora" class="w-full px-3 py-2 text-[#232526] font-semibold"></div>
+                    </div>
+                </div>
+
+                {{-- Módulo --}}
+                <div>
+                    <p class="block text-lg text-[#6A239B] font-bold">Módulo</p>
+                    <div class="px-3 py-2 bg-[#efe4f7] rounded text-[#232526] font-semibold">
+                        {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
+                    </div>
+                </div>
+
+                {{-- PIN --}}
+                <label for="pinInserido" class="block text-lg text-[#6A239B] font-bold mt-5 mb-2">Insira o PIN</label>
+                <div class="relative mb-3" data-twe-input-wrapper-init>
+                    <input id="pinInserido" name="pinInserido" type="text" inputmode="numeric" pattern="\d{4}"
+                        minlength="4" required placeholder="0000" maxlength="4"
+                        class="peer block min-h-[auto] w-full rounded border-2 bg-transparent border-[#6A239B] focus:outline px-3 py-[0.32rem] leading-[1.6] outline-none transition-all text-center text-2xl font-semibold duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
+                        placeholder="PIN" />
+                    <label for="pinInserido"
+                        class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-center text-neutral-600 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[twe-input-state-active]:-translate-y-[0.9rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary">O
+                        seu PIN
+                    </label>
+                </div>
+
+                {{-- Botão --}}
+                <div class="relative items-center flex flex-col justify-center mb-2">
+                    <button type="submit" name="acao" value="check_in"
+                        class="w-fit bg-[#40155E] text-white font-semibold px-5 py-3 text-lg rounded-lg mt-5 hover:bg-[#36194b] focus:outline-none focus:ring">
+                        Check‑in
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+    {{-- <form action="{{ route('aluno.checkin') }}" method="POST">
         @csrf
         <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
             <h2 class="text-2xl font-semibold text-center">Check In</h2>
 
-            {{-- Hora --}}
+            Hora
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Hora</p>
                 <div id="hora" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
 
-            {{-- Data --}}
+            Data
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Data</p>
                 <div id="data" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
             </div>
 
             {{-- Módulo --}}
-            @if (isset($cronograma))
+            <div>
+                <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
                 <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
                     {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
                 </div>
@@ -29,7 +104,7 @@
                 </div>
             @endif
 
-            {{-- PIN --}}
+            PIN
             <div>
                 <label for="pinInserido" class="block text-gray-700 text-sm font-bold mb-1">Insira o PIN</label>
                 <input id="pinInserido" name="pinInserido" type="text" inputmode="numeric" pattern="\d{4}" maxlength="4"
@@ -37,32 +112,35 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
             </div>
 
-            {{-- Botão --}}
+            Botão
             <button type="submit" name="acao" value="check_in"
                 class="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring">
                 Check‑in
             </button>
 
+
+
+
             {{-- Mensagem de erro --}}
-            @if (session('mensagem'))
-                <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
-                    </svg>
-                    <div class="flex-1 text-sm">
-                        {{ session('mensagem') }}
-                    </div>
-                    <button type="button" onclick="this.parentElement.remove()"
-                        class="text-red-500 hover:text-red-700 focus:outline-none">
-                        &times;
-                    </button>
-                </div>
-            @endif
+    @if (session('mensagem'))
+        <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
+            <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
+            </svg>
+            <div class="flex-1 text-sm">
+                {{ session('mensagem') }}
+            </div>
+            <button type="button" onclick="this.parentElement.remove()"
+                class="text-red-500 hover:text-red-700 focus:outline-none">
+                &times;
+            </button>
+        </div>
+    @endif
 
             {{-- mensagem de check in manual --}}
             @if (session('checkin'))
-                <a href="{{ route('aluno.checkin-manual') }}" @method('GET')>
+                <a href="{{route('aluno.checkin-manual')}}" @method("GET")>
                     <div
                         class="bg-white border border-slate-300 w-max h-20 shadow-lg rounded-md gap-4 p-4 flex flex-row items-center justify-center">
                         <section class="w-6 h-full flex flex-col items-center justify-start">
@@ -91,11 +169,11 @@
                         </section>
                     </div>
 
-                </a>
-            @endif
+        </a>
+    @endif
 
 
-    </form>
+    {{-- </form> --}}
 
 
 

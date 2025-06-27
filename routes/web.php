@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 })->name('auth.login');
+    return view('auth.login');
+})->name('auth.login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -74,7 +76,7 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     //Rota que guarda o disparo do pin
     Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
     //Rota que mostra a duração do pin
-    Route::get('/pin/duracao', function() {
+    Route::get('/pin/duracao', function () {
         return view('formador.duracao-pin');
     })->name('formador.duracao-pin');
     //Rota cronograma

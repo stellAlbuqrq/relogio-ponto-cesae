@@ -1,14 +1,4 @@
-<head>
-    {{-- Fonte --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
-        rel="stylesheet">
-
-</head>
-
-@extends('layouts.paginaAluno')
+@extends('layouts.user-layout.aluno-layout')
 
 @section('content')
     <h1>HI JULIA, THIS IS ALUNO DASHBOARD PAGE!!</h1>
@@ -23,12 +13,10 @@
             <div class="flex-1 text-sm font-medium">
                 {{ session('mensagem') }}
             </div>
-            <div class="mt-5">
-                <button
-                    class="w-full rounded-lg bg-white py-2 px-4 text-center text-lg font-bold text-[#232526] transition-all shadow-md hover:shadow-lg focus:bg-white/90 active:bg-white/90">
-                    Verificar
-                </button>
-            </div>
+            <button type="button" onclick="this.parentElement.remove()"
+                class="text-green-500 hover:text-green-700 focus:outline-none text-lg font-bold leading-none">
+                &times;
+            </button>
         </div>
     @endif
 @endsection
