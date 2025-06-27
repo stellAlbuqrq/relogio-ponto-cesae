@@ -32,6 +32,11 @@ class PresencaRepository
             ->exists();
     }
 
+    //método buscar se o aluno tem presença naquele cronograma_id -> tem checkin e tem checkout
+    public function buscarPresencaAluno($cronograma_id){
+        
+        return $this->buscarCheckIn($cronograma_id) && $this->buscarCheckOut($cronograma_id);
+    }
 
     //método para buscar historico de presenças
     public function buscarHistoricoAluno()
@@ -40,6 +45,7 @@ class PresencaRepository
             ->where('aluno_id', Auth::id())
             ->get()
             ->groupBy('cronograma_id');
+            //->paginate(10);
 
         //transformar 2 presencas (checkIn e checkOut em uma linha)
         return $presencas->map(function ($presencasDoDia) {

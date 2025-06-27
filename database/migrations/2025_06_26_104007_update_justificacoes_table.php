@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('aluno_id')->after('id');
             $table->unsignedBigInteger('cronograma_id')->after('aluno_id');
+            $table->unsignedBigInteger('cronograma_id')->after('aluno_id');
 
             $table->string('periodo')->after('cronograma_id');
 

@@ -9,7 +9,6 @@
             <div class="px-8 py-6 bg-gray-100 flex items-center justify-between">
                 <h3 class="text-xl font-semibold text-gray-800">Histórico de Presenças</h3>
             </div>
-
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-gray-800">
                     <thead class="bg-gray-800 text-white">
