@@ -142,7 +142,7 @@ class PresencaController extends Controller
             //agendar o job para o final da aula
             Log::info('Agendando CheckOutAutomaticoJob com delay de ' . $delaySegundos . ' segundos para aluno ' . $aluno_id);
             CheckOutAutomaticoJob::dispatch($aluno_id, $cronograma->id, $periodo)
-                //->delay(now()->addSeconds(100));
+                //->delay(now()->addSeconds(100));   //teste
               ->delay(now()->addSeconds($delaySegundos));
         }
 
@@ -155,7 +155,7 @@ class PresencaController extends Controller
     {
         //validação do campo que vem do front-end: comentário
         $dadosValidados = $request->validate([
-            'comentario' => 'nullable|string|max:1000',
+            'comentario' => 'nullable|string|max:500',
         ]);
 
         //obter cronograma_id
@@ -206,12 +206,10 @@ class PresencaController extends Controller
     {
         $historico = $this->presencaService->historicoAluno();
 
-        //tratar do status
-        //definir status -> Se aluno fez checkIn e checkOut -> presente
-        // se fez só um  -> pendente
-        // se nenhum -> ausente
-
         return view('aluno.historico', compact('historico'));
+
+        #################ADICIONAR FILTRO DE FILTRO POR MES
+        #################ADICIONAR faltas, dias de aula que nao tem presenca registrada
 
     }
 

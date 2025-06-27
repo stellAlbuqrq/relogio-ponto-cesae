@@ -35,6 +35,19 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        if ($user->role === 'aluno') {
+            return redirect()->route('aluno.dashboard');
+        } elseif ($user->role === 'formador') {
+            return redirect()->route('formador.dashboard');
+        } elseif ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } else {
+            Auth::logout();
+            return redirect()->route('auth.login')->withErrors([
+                'email' => 'Perfil sem role válida.',
+            ]);
+        }
     }
 }
