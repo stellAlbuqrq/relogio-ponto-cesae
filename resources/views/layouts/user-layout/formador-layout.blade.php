@@ -1,23 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <title>@yield('title', 'Formador - Relógio de Ponto')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-    <title>Layout acesso users</title>
-
-
-</head>
-
-<body>
 
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
     <style>
         :root {
             font-family: 'Inter', sans-serif;
@@ -29,46 +21,59 @@
             }
         }
     </style>
+</head>
 
+<body class="bg-slate-100 text-slate-800 antialiased selection:bg-green-600">
 
-    <div
-        class="bg-slate-100 overflow-y-scroll w-screen h-screen antialiased text-slate-300 selection:bg-green-600 selection:text-white">
-        <div class="flex flex-col relative w-screen">
-            <div id="menu"
-                class="bg-gray-900 min-h-screen z-10 text-slate-300 w-64 fixed left-0 h-screen overflow-y-scroll">
-                <div id="logo" class="my-4 px-6">
-                    <h1 class="text-lg md:text-2xl font-bold text-white">Dash<span class="text-green-500">8</span>.</h1>
-                    <p class="text-slate-500 text-sm">Manage your actions and activities</p>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-white flex-shrink-0">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-white">Formador<span class="text-green-500">RP</span></h1>
+                <p class="text-sm text-slate-400">Painel do Formador</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-700">
+                <p class="text-slate-500">Olá,</p>
+                <div class="flex items-center space-x-2 mt-2">
+                    <img class="w-8 h-8 rounded-full"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->nome) }}" alt="Avatar">
+                    <span class="font-semibold">{{ auth()->user()->nome }}</span>
                 </div>
-                <div id="profile" class="px-6 py-10">
-                    <p class="text-slate-500">Welcome back,</p>
-                    <a href="#" class="inline-flex space-x-2 items-center">
-                        <span>
-                            <img class="rounded-full w-8 h-8"
-                                src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=128&q=80"
-                                alt="">
-                        </span>
-                        <span class="text-sm md:text-base font-bold">
-                            {{ auth()->user()->nome }}
-                        </span>
-                    </a>
-                </div>
-                <div id="nav" class="w-full px-6">
-                    <a href="{{ route('formador.pin') }}"
-                        class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 bg-green-800 hover:bg-white/5 transition ease-linear duration-150">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-                            </svg>
+            </div>
+            <nav class="mt-6 px-6">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ route('formador.pin') }}" class="block py-2 hover:text-green-400">
+                            🔐 Disparar PIN
+                        </a>
+                    </li>
+                     <li>
+                        <a href="{{ route('formador.cronogramas.index') }}" class="block py-2 hover:text-green-400">
+                            🔐 Cronogramas
 
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-lg font-bold leading-5 text-white">Disparar PIN</span>
-                        </div>
-                    </a>
-                    <a href="{{ route('formador.justificacoes') }}"
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('formador.presencas') }}" class="block py-2 hover:text-green-400">
+                            🔐 Presenças
+
+                        </a>
+                    </li>
+                    {{-- Adicione outras rotas aqui se necessário --}}
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            <h2 class="text-xl font-bold mb-6">@yield('title')</h2>
+            @yield('content')
+        </main>
+    </div>
+</body>
+
+</html>
+                    {{-- <a href="{{route('formador.duracao-pin')}}"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

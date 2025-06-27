@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\AcaoPresenca;
 use App\Models\Presenca;
+use App\Services\PresencaService;
 use Illuminate\Support\Facades\Auth;
 
 class PresencaRepository
@@ -59,4 +60,56 @@ class PresencaRepository
             ];
         });
     }
+
+    // Histórico de presenças dos alunos em aulas que o formador ministra
+  public function buscarHistoricoFormador($formadorId, $filtros)
+{
+    $query = Presenca::with(['cronograma.modulo', 'aluno'])
+        ->whereHas('cronograma', function ($q) use ($formadorId, $filtros) {
+            $q->where('formador_id', $formadorId);
+
+            if (!empty($filtros['modulo_id'])) {
+                $q->where('modulo_id', $filtros['modulo_id']);
+            }
+
+            if (!empty($filtros['data_inicio'])) {
+                $q->whereDate('data', '>=', $filtros['data_inicio']);
+            }
+
+            if (!empty($filtros['data_fim'])) {
+                $q->whereDate('data', '<=', $filtros['data_fim']);
+            }
+        });
+
+    if (!empty($filtros['aluno_nome'])) {
+        $query->whereHas('aluno', function ($q) use ($filtros) {
+            $q->where('nome', 'like', '%' . $filtros['aluno_nome'] . '%');
+        });
+    }
+
+    $presencas = $query->get()->groupBy('cronograma_id');
+
+    return $presencas->map(function ($presencasDoDia) {
+        $checkIn = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckIn);
+        $checkOut = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckOut);
+
+        return (object)[
+            'cronograma' => $checkIn?->cronograma ?? $checkOut?->cronograma,
+            'aluno' => $checkIn?->aluno ?? $checkOut?->aluno,
+            'check_in' => $checkIn?->registrado_em,
+            'check_out' => $checkOut?->registrado_em,
+        ];
+    });
+    return $presencas->map(function ($presencasDoDia) {
+    $checkIn = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckIn);
+    $checkOut = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckOut);
+
+    return (object)[
+        'cronograma' => $checkIn?->cronograma ?? $checkOut?->cronograma,
+        'aluno' => $checkIn?->aluno ?? $checkOut?->aluno,
+        'check_in' => $checkIn?->registrado_em,
+        'check_out' => $checkOut?->registrado_em,
+    ];
+});
+}
 }
