@@ -21,15 +21,15 @@ class CronogramaController extends Controller
         $user = Auth::user(); // usuário logado
         $hoje = Carbon::today(); //Identifica o dia de hoje
 
-        if ($user->role === 'formador') {
-            // Redireciona para a view do formador com as aulas do dia dele
-            $aulas = Cronograma::where('formador_id', $user->id)
-                ->whereDate('data', $hoje)
-                ->with('modulo')
-                ->get();
+        // if ($user->role === 'formador') {
+        //     // Redireciona para a view do formador com as aulas do dia dele
+        //     $aulas = Cronograma::where('formador_id', $user->id)
+        //         ->whereDate('data', $hoje)
+        //         ->with('modulo')
+        //         ->get();
 
-            return view('formador.dashboard', compact('aulas'));
-        }
+        //     return view('formador.dashboard', compact('aulas'));
+        // }
 
         // Para aluno: todas as aulas do dia
         $aulas = Cronograma::whereDate('data', $hoje)
@@ -51,10 +51,12 @@ class CronogramaController extends Controller
     // }
 
     // Buscar aulas do formador logado
+
     $aulas = Cronograma::where('formador_id', $user->id)
                 ->whereDate('data', $hoje)
-                ->with('modulo')
+                ->with('modulo','formador')
                 ->get();
+
 
     return view('formador.dashboard', compact('aulas'));
 }

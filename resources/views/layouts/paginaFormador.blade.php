@@ -79,7 +79,7 @@
 
                     {{-- Botão Inserir PIN --}}
                     <a class="font-bold text-2xl text-center text-[#EAEAEA] mb-5"
-                        href="{{ route('formador.disparo-pin') }}">
+                        href="{{ route('formador.pin') }}">
                         <button
                             class="rounded-2xl bg-[#6A239B] py-3 px-12 transition-all shadow-md shadow-[#9c67c4] hover:shadow-lg hover:shadow-[#6A239B] hover:bg-[#7a31ab] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
                             type="button">
