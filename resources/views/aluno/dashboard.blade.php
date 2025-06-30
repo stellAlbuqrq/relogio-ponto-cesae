@@ -12,12 +12,43 @@
 
 @section('content')
     <div>
-        <h1 class="ml-8 mt-4 mb-9 font-bold text-[#6A239B] text-4xl">Área do Aluno</h1>
+        <h1 class="ml-8 mt-7 mb-9 font-bold text-[#6A239B] text-4xl">Área do Aluno</h1>
     </div>
+
+    {{-- Identificação da aula de hoje --}}
+    <div class="container mx-auto px-4">
+
+        {{-- Título + frase quando não há aulas --}}
+        <div class="flex items-center ml-4 mt-4 mb-6 gap-5">
+            <h2 class="font-bold text-[#6A239B] text-2xl">As aulas de hoje serão de:</h2>
+
+            @if ($aulas->isEmpty())
+                <span class="font-semibold text-[#6A239B] text-2xl">Não há aulas para hoje.</span>
+            @endif
+        </div>
+
+        {{-- Aulas do dia --}}
+        @if ($aulas->isNotEmpty())
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                @foreach ($aulas as $aula)
+                    <div class="border p-5 rounded-2xl bg-[#d8c2e7] text-[#6A239B] shadow min-w-[300px] max-w-md">
+                        <p class="font-semibold text-center">
+                            <span><strong>Formador(a):</strong> {{ $aula->formador->nome }}</span>
+                            <span class="mx-2">|</span>
+                            <span><strong>Módulo:</strong> {{ $aula->modulo->nome }}</span>
+                        </p>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+
 
     {{-- Mensagem de sucesso --}}
     @if (session('mensagem'))
-        <div class="flex items-start space-x-3 bg-green-100 border border-green-200 text-green-800 rounded-lg p-4 shadow-sm">
+        <div
+            class="flex items-start space-x-3 bg-green-100 border border-green-200 text-green-800 rounded-lg p-4 shadow-sm">
             <svg class="w-6 h-6 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-7.364 7.364a1 1 0 01-1.414 0L3.293 9.414a1 1 0 011.414-1.414L9 12.293l6.293-6.293a1 1 0 011.414 0z" />
@@ -47,7 +78,7 @@
             </div>
         </div>
 
-                {{-- Check-out --}}
+        {{-- Check-out --}}
         <div class="flex flex-col rounded-2xl bg-[#40155E] shadow-sm p-8 border border-slate-600">
             <div class="text-center">
                 <p class="text-xl uppercase font-semibold text-[#EAEAEA]">CHECK-OUT</p>
@@ -74,4 +105,4 @@
                 </button>
             </div>
         </div>
-@endsection
+    @endsection

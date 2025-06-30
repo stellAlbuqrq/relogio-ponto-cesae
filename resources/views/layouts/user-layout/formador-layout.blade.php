@@ -73,7 +73,7 @@
 </body>
 
 </html>
-                    {{-- <a href="{{route('formador.duracao-pin')}}"
+                    {{-- {{-- a href="{{route('formador.duracao-pin')}}"
                         class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 hover:bg-white/5 transition ease-linear duration-150">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -119,4 +119,4 @@
 
 </body>
 
-</html>
+</html> --}}
