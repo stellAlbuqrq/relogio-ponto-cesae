@@ -134,7 +134,7 @@
                             </svg>
 
 
-                            <a href="{{ route('formador.cronogramas.index') }}">Cronograma</a>
+                            <a href="{{ route('cronogramas.index') }}">Cronograma</a>
                         </div>
                     </div>
 
