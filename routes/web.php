@@ -84,7 +84,7 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
     //-------------------
     // Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
-    // Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');   // Para formador
+
 
     //-------------------
 
@@ -98,14 +98,16 @@ Route::middleware(['auth', 'checkrole:formador'])
     ->name('formador.')
     ->group(function () {
 
-//-----------------------------------
+        //Rota dashboard formador
+        Route::get('/', [CronogramaController::class, 'formadorAulas'])->name('dashboard');
+        //-----------------------------------
 
         // Dashboard do Formador
-        Route::get('/', function () {
-            return view('formador.dashboard');
-        })->name('dashboard');
+        // Route::get('/', function () {
+        //     return view('formador.dashboard');
+        // })->name('dashboard');
 
-//-----------------------------------
+        //-----------------------------------
 
         // Página que mostra info da aula e botão Disparar PIN
         Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('pin');
@@ -128,6 +130,8 @@ Route::middleware(['auth', 'checkrole:formador'])
         //Rota para aceitar e rejeitar justificacoes
         Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
         Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
+        //Rota dashboard formador
+        // Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');   // Para formador
     });
 
 

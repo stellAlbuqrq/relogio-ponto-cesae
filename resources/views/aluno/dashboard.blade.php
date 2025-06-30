@@ -31,7 +31,7 @@
         @if ($aulas->isNotEmpty())
             <div class="flex flex-wrap justify-center gap-4 mb-12">
                 @foreach ($aulas as $aula)
-                    <div class="border p-5 rounded-2xl bg-[#d8c2e7] text-[#6A239B] shadow min-w-[300px] max-w-md">
+                    <div class="border p-5 rounded-2xl bg-[#d8c2e7] text-[#6A239B] min-w-[300px] max-w-md">
                         <p class="font-semibold text-center">
                             <span><strong>Formador(a):</strong> {{ $aula->formador->nome }}</span>
                             <span class="mx-2">|</span>
