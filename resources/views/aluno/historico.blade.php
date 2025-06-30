@@ -1,17 +1,65 @@
 @extends('layouts.paginaAluno')
 
 @section('content')
-    {{-- <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/riva-dashboard-tailwind/riva-dashboard.css"> --}}
-
     <div class="m-5">
+        {{-- Filtro para buscas --}}
+        <form method="GET" action="{{ route('aluno.historico') }}"
+            class="flex flex-wrap items-end gap-6 p-4 bg-white rounded-lg shadow mb-6">
+
+            <div class="flex flex-col">
+                <label class="block text-sm font-medium mb-1">Data Início</label>
+                <input type="date" name="data_inicio" value="{{ request('data_inicio') }}" class="input input-bordered">
+            </div>
+
+            <div class="flex flex-col">
+                <label class="block text-sm font-medium mb-1">Data Fim</label>
+                <input type="date" name="data_fim" value="{{ request('data_fim') }}" class="input input-bordered">
+            </div>
+
+            <div class="flex flex-col min-w-[180px]">
+                <label class="block text-sm font-medium mb-1">Módulo</label>
+                <select name="modulo_id" class="input input-bordered">
+                    <option value="">Todos</option>
+                    @foreach ($modulos as $modulo)
+                        <option value="{{ $modulo->id }}" {{ request('modulo_id') == $modulo->id ? 'selected' : '' }}>
+                            {{ $modulo->nome }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="flex flex-col min-w-[140px]">
+                <label class="block text-sm font-medium mb-1">Status</label>
+                <select name="status" class="input input-bordered">
+                    <option value="">Todos</option>
+                    <option value="presente" {{ request('status') == 'presente' ? 'selected' : '' }}>Presente</option>
+                    <option value="pendente" {{ request('status') == 'pendente' ? 'selected' : '' }}>Pendente</option>
+                    <option value="ausente" {{ request('status') == 'ausente' ? 'selected' : '' }}>Ausente</option>
+                </select>
+            </div>
+
+            <div class="flex gap-4 ml-auto">
+                <button type="submit"
+                    class="bg-[#190E40] text-white rounded px-6 py-2 text-sm font-semibold transition duration-150 ease-in-out hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Filtrar
+                </button>
+
+                <a href="{{ route('aluno.historico') }}"
+                    class="bg-white border border-[#190E40] text-[#190E40] rounded px-6 py-2 text-sm font-semibold transition duration-150 ease-in-out hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Limpar
+                </a>
+            </div>
+        </form>
+
+
+        {{-- Tabela do histórico --}}
         <div class="bg-white rounded-2xl border border-stone-300 shadow-md overflow-hidden">
             <div class="px-8 py-6 bg-gray-100 flex items-center justify-between">
                 <h3 class="text-xl font-semibold text-gray-800">Histórico de Presenças</h3>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-gray-800">
-                    <thead class="bg-gray-800 text-white">
+                    <thead style="background-color: #6A239B;" class="text-white">
                         <tr>
                             <th class="p-4 text-left min-w-[100px]">Data</th>
                             <th class="p-4 text-left min-w-[175px]">Módulo</th>

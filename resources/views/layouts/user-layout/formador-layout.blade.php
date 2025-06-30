@@ -48,7 +48,7 @@
                         </a>
                     </li>
                      <li>
-                        <a href="{{ route('formador.cronogramas.index') }}" class="block py-2 hover:text-green-400">
+                        <a href="{{ route('cronogramas.index') }}" class="block py-2 hover:text-green-400">
                             🔐 Cronogramas
 
                         </a>

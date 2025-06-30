@@ -7,7 +7,6 @@ use App\Models\Cronograma;
 use App\Models\Justificativa;
 use App\Models\Presenca;
 use App\Services\CronogramaService;
-use App\Services\JustificacaoController;
 use App\Services\JustificacaoService;
 use App\Services\PinService;
 use App\Services\PresencaService;

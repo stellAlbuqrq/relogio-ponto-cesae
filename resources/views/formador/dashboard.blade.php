@@ -31,7 +31,7 @@
             @foreach ($aulas as $aula)
                 <div class="border p-5 rounded-2xl bg-[#7426AA] text-[#EAEAEA] shadow min-w-[300px] max-w-md">
                     <p class="font-semibold text-center">
-                        <span><strong>Turma:</strong> {{ $aula->modulo->turma_id }}</span>
+                        <span><strong>Turma:</strong> {{ $aula->modulo->turma->nome }}</span>
                         <span class="mx-2">|</span>
                         <span><strong>Módulo:</strong> {{ $aula->modulo->nome }}</span>
                     </p>

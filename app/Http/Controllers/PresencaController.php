@@ -6,6 +6,7 @@ use App\AcaoPresenca;
 use App\Jobs\CheckOutAutomaticoJob;
 use App\Jobs\JobTesteQueue;
 use App\Models\Cronograma;
+use App\Models\Modulo;
 use App\Models\Presenca;
 use App\Services\CronogramaService;
 use App\Services\PinService;
@@ -138,12 +139,12 @@ class PresencaController extends Controller
         $delaySegundos = $agora->diffInSeconds($horaFim);
 
 
-       if ($delaySegundos > 0) {
+        if ($delaySegundos > 0) {
             //agendar o job para o final da aula
             Log::info('Agendando CheckOutAutomaticoJob com delay de ' . $delaySegundos . ' segundos para aluno ' . $aluno_id);
             CheckOutAutomaticoJob::dispatch($aluno_id, $cronograma->id, $periodo)
                 //->delay(now()->addSeconds(100));   //teste
-              ->delay(now()->addSeconds($delaySegundos));
+                ->delay(now()->addSeconds($delaySegundos));
         }
 
         return redirect()->route('aluno.dashboard')->with('mensagem', 'Presença registada com sucesso.');
@@ -182,7 +183,8 @@ class PresencaController extends Controller
         return redirect()->route('aluno.dashboard')->with('mensagem', 'Check-out registado com sucesso.');
     }
 
-    public function presencaCheckInManual(){
+    public function presencaCheckInManual()
+    {
 
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
@@ -196,24 +198,79 @@ class PresencaController extends Controller
         return view('aluno.checkin-manual', ['cronograma' => $cronograma]);
     }
 
-    public function presencaCheckInManualGuardar(){
+    public function presencaCheckInManualGuardar(Request $request)
+    {
 
+        $dadosValidados = $request->validate([
+            'comentario' => 'nullable|string|max:500',
+        ]);
+
+        $comentario = $dadosValidados['comentario'];
+
+        //obter cronograma_id
+        $cronograma_id = $this->cronogramaService->obterDiaCronograma();
+
+        //Validação de presença já realizada, garante que só tem 1 checkIn por aula
+        $mensagemErro = $this->presencaService->pinJaInserido($cronograma_id);
+
+        if ($mensagemErro) {
+            return redirect()->route('aluno.checkin-manual')->with('mensagem', 'O aluno(a) já fez check-in');
+        }
+
+        $aluno_id = Auth::id();
+
+        //Criar presenca
+        Presenca::create([
+            'aluno_id' => $aluno_id,
+            'cronograma_id' => $cronograma_id,
+            'acao' => AcaoPresenca::CheckIn,
+            'comentario' => $comentario,
+        ]);
+
+        ############### Check-out automatico a partir do Check-in
+        //CheckOutAutomaticoJob fica agendado a partir do evento do check-in. Dispara o check-out 4 horas depois do check-in (manhã), e 3 horas depois (tarde)
+
+        $cronograma = Cronograma::find($cronograma_id);
+        //definir se é periodo manha ou tarde de acordo com o ponto de referência de 13hs
+        $periodo = $cronograma->hora_inicio < '13:00:00' ? 'manha' : 'tarde';
+
+        //horários de fim de aula
+        $horaFimManha = Carbon::today()->setTime(13, 0, 0);  //manha
+        $horaFimTarde = Carbon::today()->setTime(17, 0, 0);  //tarde
+
+        //Se manha, horaFim é horaFimManha, se não..
+        $horaFim = $periodo === 'manha' ? $horaFimManha : $horaFimTarde;
+
+        $agora = Carbon::now();
+        $delaySegundos = $agora->diffInSeconds($horaFim);
+
+
+        if ($delaySegundos > 0) {
+            //agendar o job para o final da aula
+            Log::info('Agendando CheckOutAutomaticoJob com delay de ' . $delaySegundos . ' segundos para aluno ' . $aluno_id);
+            CheckOutAutomaticoJob::dispatch($aluno_id, $cronograma->id, $periodo)
+                //->delay(now()->addSeconds(100));   //teste
+                ->delay(now()->addSeconds($delaySegundos));
+        }
+
+        return redirect()->route('aluno.dashboard')->with('mensagem', 'Presença registada com sucesso.');
     }
 
 
     //Método que mostra todo o histórico de checkIn/checkOut
-    public function presencaHistorico()
+    public function presencaHistorico(Request $request)
     {
-        $historico = $this->presencaService->historicoAluno();
+        $filtros = [
+            'data_inicio' => $request->input('data_inicio'),
+            'data_fim' => $request->input('data_fim'),
+            'modulo_id' => $request->input('modulo_id'),
+            'status' => $request->input('status'),
+        ];
 
-        return view('aluno.historico', compact('historico'));
+        $historico = $this->presencaService->historicoAluno($filtros);
 
-        #################ADICIONAR FILTRO DE FILTRO POR MES
-        #################ADICIONAR faltas, dias de aula que nao tem presenca registrada
+        $modulos = Modulo::all();
 
+        return view('aluno.historico', compact('historico', 'modulos'));
     }
-
-
-
-
 }
