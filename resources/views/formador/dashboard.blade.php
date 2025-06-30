@@ -17,7 +17,7 @@
     </div>
 
     {{-- Título + frase quando não há aulas --}}
-    <div class="flex items-center ml-4 mt-4 mb-6 gap-4">
+    <div class="flex items-center ml-8 mt-4 mb-6 gap-4">
         <h2 class="font-bold text-[#40155E] text-2xl">As suas aulas de hoje:</h2>
 
         @if ($aulas->isEmpty())
@@ -29,9 +29,9 @@
     @if ($aulas->isNotEmpty())
         <div class="flex flex-wrap justify-center gap-5 mb-12">
             @foreach ($aulas as $aula)
-                <div class="border p-5 rounded-2xl bg-[#7426AA] text-[#EAEAEA] shadow min-w-[300px] max-w-md">
+                <div class="p-5 rounded-2xl bg-[#7426AA] text-[#EAEAEA] min-w-[300px] max-w-md">
                     <p class="font-semibold text-center">
-                        <span><strong>Turma:</strong> {{ $aula->modulo->turma_id }}</span>
+                        <span><strong>Turma:</strong> {{ $aula->modulo->turma->nome }}</span>
                         <span class="mx-2">|</span>
                         <span><strong>Módulo:</strong> {{ $aula->modulo->nome }}</span>
                     </p>

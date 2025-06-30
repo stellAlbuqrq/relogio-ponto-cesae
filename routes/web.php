@@ -74,65 +74,45 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
     //Rota justificacoes de falta
     Route::get('/justificacoes', [JustificarController::class, 'justificarFaltas'])->name('aluno.justificacoes');
-
     Route::post('/justificacoes/guardar', [JustificarController::class, 'justificarGuardar'])->name('aluno.justificacoes-guardar');
 
     //Rota cronograma
     Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.cronograma');
-
-
-
-    //-------------------
-    // Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
-
-
-    //-------------------
-
-
 });
 
 
 //Rotas que passam pelo middleware CheckRole = formador
-Route::middleware(['auth', 'checkrole:formador'])
-    ->prefix('formador')
-    ->name('formador.')
-    ->group(function () {
+Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
-        //Rota dashboard formador
-        Route::get('/', [CronogramaController::class, 'formadorAulas'])->name('dashboard');
-        //-----------------------------------
+    //dashboard formador
+    Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');
+    //Rota página que mostra info da aula e botão Disparar Pin
+    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('formador.pin');
+    //Rota que guarda o disparo do pin
+    Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
+    //Rota que mostra a duração do pin
+    Route::get('/pin/duracao', function () {
+        return view('duracao-pin');
+    })->name('duracao-pin');
 
-        // Dashboard do Formador
-        // Route::get('/', function () {
-        //     return view('formador.dashboard');
-        // })->name('dashboard');
+    // CRUD convencional de Cronogramas
+    
+    //Rota para cronograma fullcalendar
+    Route::resource('cronogramas', FormadorCronogramaController::class);
+    //Rota para histórico formador
+    Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('formador.presencas');
 
-        //-----------------------------------
+    //Rota para ver justificacoes dos alunos
+    Route::get('/ver/justificacoes', [JustificarController::class, 'mostrarJustificacoes'])->name('formador.justificacoes');
+    //Rota para aceitar e rejeitar justificacoes
+    Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
+    Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
 
-        // Página que mostra info da aula e botão Disparar PIN
-        Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('pin');
+    //Rota para atualização check-in check-out pelo formador
+    Route::post('/presenca/atualizar', [FormadorPresencaController::class, 'atualizarPresenca'])
 
-        // Ação que guarda o disparo do PIN
-        Route::post('/disparar-pin', [DisparoPinController::class, 'dispararPin'])->name('disparo-pin');
-
-        // Página que mostra a duração do PIN
-        Route::get('/pin/duracao', function () {
-            return view('formador.duracao-pin');
-        })->name('duracao-pin');
-
-        // CRUD convencional de Cronogramas
-        Route::resource('cronogramas', FormadorCronogramaController::class);
-        //Rota para histórico formador
-        Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('presencas');
-
-        //Rota para ver justificacoes dos alunos
-        Route::get('/ver/justificacoes', [JustificarController::class, 'mostrarJustificacoes'])->name('formador.justificacoes');
-        //Rota para aceitar e rejeitar justificacoes
-        Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
-        Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
-        //Rota dashboard formador
-        // Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');   // Para formador
-    });
+        ->name('formador.presenca.atualizar');
+});
 
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
