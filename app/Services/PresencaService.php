@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\AcaoPresenca;
+use App\Models\Presenca;
 use App\Repositories\CronogramaRepository;
 use App\Repositories\PresencaRepository;
 use Illuminate\Support\Facades\Auth;

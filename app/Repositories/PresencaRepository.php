@@ -33,9 +33,8 @@ class PresencaRepository
             ->exists();
     }
 
-    //método buscar se o aluno tem presença naquele cronograma_id -> tem checkin e tem checkout
-    public function buscarPresencaAluno($cronograma_id){
 
+    //método buscar se o aluno tem presença naquele cronograma_id -> tem checkin e tem checkout
     public function buscarPresencaAluno($cronograma_id)
     {
 
@@ -45,9 +44,9 @@ class PresencaRepository
     //método para buscar historico de presenças
     public function buscarHistoricoAluno($aluno_id)
     {
-       return Presenca::where('aluno_id', $aluno_id)
-        ->get()
-        ->groupBy('cronograma_id');
+        return Presenca::where('aluno_id', $aluno_id)
+            ->get()
+            ->groupBy('cronograma_id');
     }
 
     // Histórico de presenças dos alunos em aulas que o formador ministra

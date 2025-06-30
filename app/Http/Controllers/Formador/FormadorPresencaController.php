@@ -109,3 +109,4 @@ public function atualizarPresenca(Request $request)
 }
 
 }
+ 

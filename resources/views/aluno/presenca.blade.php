@@ -86,66 +86,41 @@
 
 
     </div>
-    {{-- <form action="{{ route('aluno.checkin') }}" method="POST">
-        @csrf
-        <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
-            <h2 class="text-2xl font-semibold text-center">Check In</h2>
 
-            Hora
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Hora</p>
-                <div id="hora" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
+    {{-- Mensagem de sucesso --}}
+    @if (session('mensagem'))
+        <div
+            class="flex items-start space-x-3 bg-green-100 border border-green-200 text-green-800 rounded-lg p-4 shadow-sm">
+            <svg class="w-6 h-6 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-7.364 7.364a1 1 0 01-1.414 0L3.293 9.414a1 1 0 011.414-1.414L9 12.293l6.293-6.293a1 1 0 011.414 0z" />
+            </svg>
+            <div class="flex-1 text-sm font-medium">
+                {{ session('mensagem') }}
             </div>
-
-            Data
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Data</p>
-                <div id="data" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
-            </div>
-
-            Módulo
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
-                @if (@isset($cronograma))
-                <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
-                    {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
-                </div>
-            @else
-                <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 text-red-600">
-                    Hoje não há aula.
-                </div>
-            @endif
-
-        PIN
-        <div>
-            <label for="pinInserido" class="block text-gray-700 text-sm font-bold mb-1">Insira o PIN</label>
-            <input id="pinInserido" name="pinInserido" type="text" inputmode="numeric" pattern="\d{4}" maxlength="4"
-                minlength="4" required placeholder="0000"
-                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
+            <button type="button" onclick="this.parentElement.remove()"
+                class="text-green-500 hover:text-green-700 focus:outline-none text-lg font-bold leading-none">
+                &times;
+            </button>
         </div>
+    @endif
 
-        Botão
-        <button type="submit" name="acao" value="check_in"
-            class="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring">
-            Check‑in
-        </button>
-
-        {{-- Mensagem de erro --}}
-        @if (session('mensagem'))
-            <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
-                <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
-                </svg>
-                <div class="flex-1 text-sm">
-                    {{ session('mensagem') }}
-                </div>
-                <button type="button" onclick="this.parentElement.remove()"
-                    class="text-red-500 hover:text-red-700 focus:outline-none">
-                    &times;
-                </button>
+    {{-- Mensagem de erro --}}
+    @if (session('mensagem'))
+        <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
+            <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
+            </svg>
+            <div class="flex-1 text-sm">
+                {{ session('mensagem') }}
             </div>
-        @endif
+            <button type="button" onclick="this.parentElement.remove()"
+                class="text-red-500 hover:text-red-700 focus:outline-none">
+                &times;
+            </button>
+        </div>
+    @endif
 
     {{-- mensagem de check in manual --}}
     @if (session('checkin'))
@@ -178,28 +153,28 @@
                 </section>
             </div>
 
-            </a>
-        @endif
+        </a>
+    @endif
 
 
 
 
-        <script>
-            //Função que mostra a hora/data no front-end (a hora/data a ser guardada na Tabela presença será a hora definida no Back-end)
-            function mostrarHoraData() {
-                const agora = new Date();
-                const hora = agora.toLocaleTimeString();
-                const data = agora.toLocaleDateString();
+    <script>
+        //Função que mostra a hora/data no front-end (a hora/data a ser guardada na Tabela presença será a hora definida no Back-end)
+        function mostrarHoraData() {
+            const agora = new Date();
+            const hora = agora.toLocaleTimeString();
+            const data = agora.toLocaleDateString();
 
-                document.getElementById('hora').textContent = hora;
-                document.getElementById('data').textContent = data;
-            }
+            document.getElementById('hora').textContent = hora;
+            document.getElementById('data').textContent = data;
+        }
 
 
-            mostrarHoraData(); //Atualiza o método ao carregar a página
+        mostrarHoraData(); //Atualiza o método ao carregar a página
 
-            setInterval(() => { //Atualiza a cada segundo que passa
-                mostrarHoraData();
-            }, 1000);
-        </script>
-    @endsection
+        setInterval(() => { //Atualiza a cada segundo que passa
+            mostrarHoraData();
+        }, 1000);
+    </script>
+@endsection

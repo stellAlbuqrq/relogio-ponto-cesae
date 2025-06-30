@@ -147,7 +147,7 @@ class PresencaController extends Controller
                 ->delay(now()->addSeconds($delaySegundos));
         }
 
-        return redirect()->route('aluno.dashboard')->with('mensagem', 'Presença registada com sucesso.');
+        return redirect()->route('aluno.presenca')->with('mensagem', 'Presença registada com sucesso.');
     }
 
 

@@ -125,7 +125,7 @@
             <h2 class="text-xl font-bold mb-4">Editar Presença</h2>
             <form method="POST" action="{{ route('formador.presenca.atualizar') }}">
                 @csrf
-               
+
                 <input type="hidden" name="presenca_id" id="modal-presenca-id">
 
                 <div class="mb-4">

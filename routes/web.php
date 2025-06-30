@@ -81,12 +81,11 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     Route::post('/justificacoes/guardar', [JustificarController::class, 'justificarGuardar'])->name('aluno.justificacoes-guardar');
 
     //Rota cronograma
-    Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.aulas-dia');
+    Route::get('/aluno/aulas', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.aulas-dia');
 });
 
 
 //Rotas que passam pelo middleware CheckRole = formador
-Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
     //dashboard formador
@@ -124,9 +123,7 @@ Route::middleware(['auth', 'checkrole:formador'])->group(function () {
     Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
 
     //Rota para atualização check-in check-out pelo formador
-    Route::post('/presenca/atualizar', [FormadorPresencaController::class, 'atualizarPresenca'])
-
-        ->name('formador.presenca.atualizar');
+    Route::post('/presenca/atualizar', [FormadorPresencaController::class, 'atualizarPresenca'])->name('formador.presenca.atualizar');
 });
 
 
