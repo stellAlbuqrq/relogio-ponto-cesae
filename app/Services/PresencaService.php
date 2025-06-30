@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Presenca;
 use App\Repositories\PresencaRepository;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -81,6 +82,41 @@ class PresencaService
             }
             return true;
         });
+}
+
+public function atualizarPresenca($dados)
+{
+    $presencaId = $dados['presenca_id'];
+    $novoCheckIn = $dados['check_in'] ?? null;
+    $novoCheckOut = $dados['check_out'] ?? null;
+    $comentario = $dados['comentario'] ?? '';
+
+    // Verifica se há check-in ou check-out a alterar
+    if ($novoCheckIn) {
+        $checkIn = Presenca::find($presencaId);
+
+        if ($checkIn && $checkIn->acao === 'check_in') {
+            $checkIn->registrado_em = $checkIn->created_at->format('Y-m-d') . ' ' . $novoCheckIn;
+            $checkIn->comentario = $comentario;
+            $checkIn->save();
+        }
+    }
+
+    if ($novoCheckOut) {
+        // Encontra o check-out correspondente ao mesmo cronograma e aluno
+        $checkIn = Presenca::find($presencaId);
+
+        $checkOut = Presenca::where('aluno_id', $checkIn->aluno_id)
+            ->where('cronograma_id', $checkIn->cronograma_id)
+            ->where('acao', 'check_out')
+            ->first();
+
+        if ($checkOut) {
+            $checkOut->registrado_em = $checkOut->created_at->format('Y-m-d') . ' ' . $novoCheckOut;
+            $checkOut->comentario = $comentario;
+            $checkOut->save();
+        }
+    }
 }
 }
 

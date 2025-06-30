@@ -94,4 +94,18 @@ public function __construct(PresencaService $presencaService)
 
     return view('formador.presencas.presencas', compact('historico', 'modulos'));
 }
+public function atualizarPresenca(Request $request)
+{
+    $request->validate([
+        'presenca_id' => 'required|exists:presencas,id',
+        'check_in' => 'nullable|date_format:H:i',
+        'check_out' => 'nullable|date_format:H:i',
+        'comentario' => 'required|string|max:255',
+    ]);
+
+    $this->presencaService->atualizarPresenca($request->all());
+
+    return redirect()->route('formador.presencas')->with('success', 'Presença atualizada com sucesso.');
+}
+
 }
