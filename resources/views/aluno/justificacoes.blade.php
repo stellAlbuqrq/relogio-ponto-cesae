@@ -16,6 +16,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+    {{-- Daisy UI --}}
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
+
 </head>
 
 @extends('layouts.paginaAluno')
@@ -84,77 +90,48 @@
                                     <p class="block text-lg text-[#AD87C6] font-bold mb-3">Selecione o período</p>
                                     <div class="flex justify-between gap-2">
 
-
                                         <div class="flex gap-10">
                                             <div class="inline-flex items-center">
-                                                <label class="relative flex items-center cursor-pointer" for="html">
-                                                       <input type="radio" name="periodo" id="manha" value="manha"
+                                                <label class="relative flex items-center cursor-pointer" for="manha">
+                                                    <input type="radio" name="periodo" id="manha" value="manha"
                                                         class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                                                        id="html">
+                                                        id="manha">
+                                                    {{ old('periodo', $justificacao->periodo ?? '') == 'manha' ? 'checked' : '' }}
+
                                                     <span
-                                                        class="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                        class="absolute bg-[#40155E] w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                                     </span>
                                                 </label>
-                                                <label class="ml-2 text-slate-600 cursor-pointer text-sm"
-                                                    for="html">Manhã</label>
+                                                <label class="ml-2 text-slate-600 cursor-pointer text-md font-medium"
+                                                    for="manha">Manhã</label>
                                             </div>
 
                                             <div class="inline-flex items-center">
-                                                <label class="relative flex items-center cursor-pointer" for="react">
-                                                    <input type="radio" name="periodo" id="tarde" value="tarde" type="radio"
+                                                <label class="relative flex items-center cursor-pointer" for="tarde">
+                                                    <input type="radio" name="periodo" id="tarde" value="tarde"
+                                                        type="radio"
                                                         class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                                                        id="react" checked="">
+                                                        id="tarde">
+                                                    {{ old('periodo', $justificacao->periodo ?? '') == 'tarde' ? 'checked' : '' }}
                                                     <span
-                                                        class="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                        class="absolute bg-[#40155E] w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                                     </span>
                                                 </label>
-                                                <label class="ml-2 text-slate-600 cursor-pointer text-sm"
-                                                    for="react">Tarde</label>
+                                                <label class="ml-2 text-slate-600 cursor-pointer text-md font-medium"
+                                                    for="tarde">Tarde</label>
                                             </div>
                                         </div>
-
-
-
-
-                                        <input type="radio" name="periodo" id="manha" value="manha"
-                                            class="peer hidden"
-                                            {{ old('periodo', $justificacao->periodo ?? '') == 'manha' ? 'checked' : '' }} />
-                                        <button
-                                            class="flex-1 text-center cursor-pointer rounded-md bg-[#40155E] py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-[#3a194e] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
-                                            type="input">
-                                            Manhã
-                                        </button>
-
-                                        {{-- <input type="radio" name="periodo" id="manha" value="manha"
-                                            class="peer hidden"
-                                            {{ old('periodo', $justificacao->periodo ?? '') == 'manha' ? 'checked' : '' }} />
-                                        <label for="manha"
-                                            class="flex-1 text-center cursor-pointer px-4 py-2 rounded border border-gray-300 bg-gray-100 hover:bg-blue-100 peer-checked:bg-blue-500 peer-checked:text-white">
-                                            Manhã
-                                        </label> --}}
-
-                                        <input type="radio" name="periodo" id="tarde" value="tarde"
-                                            class="peer hidden"
-                                            {{ old('periodo', $justificacao->periodo ?? '') == 'tarde' ? 'checked' : '' }} />
-
-                                        <button
-                                            class="flex-1 text-center cursor-pointer rounded-md bg-[#7426AA] py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-[#643385] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
-                                            type="input">
-                                            Tarde
-                                        </button>
-
-                                        {{-- <label for="tarde"
-                                            class="flex-1 text-center cursor-pointer px-4 py-2 rounded border border-gray-300 bg-gray-100 hover:bg-blue-100 peer-checked:bg-blue-500 peer-checked:text-white">
-                                            Tarde
-                                        </label> --}}
                                     </div>
                                 </div>
 
 
                                 {{-- Comentário --}}
+                                <p class="text-sm text-gray-500 mt-2">* Caso dia todo, crie <strong>duas
+                                        justificações</strong> (uma para manhã e outra para tarde).</p>
+
                                 <div>
                                     <label for="comentario"
-                                        class="block mb-2 text-lg text-[#40155E] font-bold">Justificação</label>
+                                        class="block text-lg text-[#AD87C6] font-bold mb-3 mt-5">Justificação</label>
 
                                 </div>
 
@@ -175,19 +152,18 @@
 
                                 {{-- Anexo --}}
                                 <div>
-                                    <label for="anexo" class="block mb-2 text-lg text-[#40155E] font-bold">Anexo (imagem
+                                    <label for="anexo" class="block text-lg text-[#AD87C6] font-bold mb-3 mt-5">Anexo
+                                        (imagem
                                         ou PDF)</label>
                                     <input type="file" name="anexo" id="anexo" accept="image/*,application/pdf"
                                         class="file-input file-input-neutral rounded-md w-full" />
-                                    {{-- <input type="file" name="anexo" id="anexo" accept="image/*,application/pdf"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" /> --}}
                                 </div>
 
                                 {{-- Botão --}}
-                                <div class="relative items-center flex flex-col justify-center mb-2">
-                                    <button type="submit" name="acao" value="check_in"
-                                        class="w-fit bg-[#40155E] text-white font-semibold px-4 py-2 rounded-lg mt-5 hover:bg-[#36194b] focus:outline-none focus:ring">
-                                        Check‑in
+                                <div class="relative items-center flex flex-col justify-center mb-2 mt-2">
+                                    <button type="submit" name="justificar" value="justificar"
+                                        class="w-fit bg-[#AD87C6] text-white text-lg font-semibold px-7 py-3 rounded-lg mt-5 hover:bg-[#a276c0] focus:outline-none focus:ring">
+                                        Enviar
                                     </button>
                                 </div>
 
@@ -197,23 +173,22 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 
-    <form action="{{ route('aluno.checkin') }}" method="POST" enctype="multipart/form-data">
+    {{-- <form action="{{ route('aluno.checkin') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
             <h2 class="text-2xl font-semibold text-center">Justificar faltas</h2>
 
-            {{-- Data --}}
+            Data
             <div>
                 <label for="data" class="block text-gray-700 text-sm font-bold mb-1">Selecione a data:</label>
                 <input id="data" name="data" type="date"
                     class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 text-gray-700 focus:outline-none focus:ring focus:border-blue-300" />
             </div>
 
-            {{-- Período --}}
+            Período
             <div>
                 <p class="block text-gray-700 text-sm font-bold mb-1">Selecione o período</p>
                 <div class="flex justify-between gap-2">
@@ -235,7 +210,7 @@
 
             <p class="text-sm text-gray-500 mt-1">*Caso dia todo, crie duas justificações (manhã/tarde).</p>
 
-            {{-- Comentário --}}
+            Comentário
             <div>
                 <label for="comentario" class="block text-gray-700 text-sm font-bold mb-1">Comentário</label>
                 <textarea id="comentario" name="comentario" rows="4"
@@ -243,20 +218,32 @@
                     placeholder="Escreve aqui o teu comentário..."></textarea>
             </div>
 
-            {{-- Anexo --}}
+            Anexo
             <div>
                 <label for="anexo" class="block text-gray-700 text-sm font-bold mb-1">Anexo (imagem ou PDF)</label>
                 <input type="file" name="anexo" id="anexo" accept="image/*,application/pdf"
                     class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" />
             </div>
 
-            {{-- Botão --}}
+            Botão
             <button type="submit" name="justificar" value="justificar"
                 class="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring">
                 Enviar justificação
             </button>
         </div>
-    </form>
+    </form> --}}
+
+
+
+
+
+
+
+    <!-- from node_modules -->
+    <script src="node_modules/@material-tailwind/html@latest/scripts/ripple.js"></script>
+
+    <!-- from cdn -->
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
 
 
     <script>

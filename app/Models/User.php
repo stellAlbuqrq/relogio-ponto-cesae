@@ -35,6 +35,12 @@ class User extends Authenticatable
         return $this->hasMany(Presenca::class, 'aluno_id');
     }
 
+
+    public function cronogramas() {
+    return $this->hasMany(Cronograma::class, 'formador_id');
+}
+
+
     /**
      * The attributes that are mass assignable.
      *

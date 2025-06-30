@@ -69,7 +69,7 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     Route::post('/presenca/checkout', [PresencaController::class, 'presencaCheckOutGuardar'])->name('aluno.checkout');
     //Rota check in manual -> sem PIN
     Route::get('presenca/checkin/manual', [PresencaController::class, 'presencaCheckInManual'])->name('aluno.checkin-manual');
-     //Rota para histórico
+    //Rota para histórico
     Route::get('/presenca/historico', [PresencaController::class, 'presencaHistorico'])->name('aluno.historico');
 
     //Rota justificacoes de falta
@@ -80,6 +80,15 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //Rota cronograma
     Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.cronograma');
 
+
+
+    //-------------------
+    // Route::get('/aluno', [CronogramaController::class, 'cronograma'])->name('aluno.dashboard');
+    // Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');   // Para formador
+
+    //-------------------
+
+
 });
 
 
@@ -89,34 +98,37 @@ Route::middleware(['auth', 'checkrole:formador'])
     ->name('formador.')
     ->group(function () {
 
-    // Dashboard do Formador
-    Route::get('/', function () {
-        return view('formador.dashboard');
-    })->name('dashboard');
+//-----------------------------------
 
-    // Página que mostra info da aula e botão Disparar PIN
-    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('pin');
+        // Dashboard do Formador
+        Route::get('/', function () {
+            return view('formador.dashboard');
+        })->name('dashboard');
 
-    // Ação que guarda o disparo do PIN
-    Route::post('/disparar-pin', [DisparoPinController::class, 'dispararPin'])->name('disparo-pin');
+//-----------------------------------
 
-    // Página que mostra a duração do PIN
-    Route::get('/pin/duracao', function () {
-        return view('formador.duracao-pin');
-    })->name('duracao-pin');
+        // Página que mostra info da aula e botão Disparar PIN
+        Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('pin');
 
-    // CRUD convencional de Cronogramas
-    Route::resource('cronogramas', FormadorCronogramaController::class);
-    //Rota para histórico formador
-   Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('presencas');
+        // Ação que guarda o disparo do PIN
+        Route::post('/disparar-pin', [DisparoPinController::class, 'dispararPin'])->name('disparo-pin');
 
-    //Rota para ver justificacoes dos alunos
-    Route::get('/ver/justificacoes', [JustificarController::class, 'mostrarJustificacoes'])->name('formador.justificacoes');
-    //Rota para aceitar e rejeitar justificacoes
-    Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
-    Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
+        // Página que mostra a duração do PIN
+        Route::get('/pin/duracao', function () {
+            return view('formador.duracao-pin');
+        })->name('duracao-pin');
 
-});
+        // CRUD convencional de Cronogramas
+        Route::resource('cronogramas', FormadorCronogramaController::class);
+        //Rota para histórico formador
+        Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('presencas');
+
+        //Rota para ver justificacoes dos alunos
+        Route::get('/ver/justificacoes', [JustificarController::class, 'mostrarJustificacoes'])->name('formador.justificacoes');
+        //Rota para aceitar e rejeitar justificacoes
+        Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
+        Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
+    });
 
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -124,36 +136,34 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Rotas que passam pelo middleware CheckRole = admin
 Route::middleware(['auth', 'checkrole:admin'])
-     ->prefix('admin')
-     ->name('admin.')
-     ->group(function () {
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    // Dashboard
-    Route::get('/',           [AdminController::class,'dashboard'])->name('dashboard');
-    Route::get('dashboard',   [AdminController::class,'index'])    ->name('index');
+        // Dashboard
+        Route::get('/',           [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('dashboard',   [AdminController::class, 'index'])->name('index');
 
-    // CRUD Usuários / Cursos / Módulos / Turmas / Presenças
-    Route::resource('usuarios',   AdminUserController::class);
-    Route::resource('cursos',     AdminCursoController::class);
-    Route::resource('modulos',    AdminModuloController::class);
-    Route::resource('turmas',     AdminTurmaController::class);
-    Route::resource('presencas',  AdminPresencaController::class)->except(['destroy']);
+        // CRUD Usuários / Cursos / Módulos / Turmas / Presenças
+        Route::resource('usuarios',   AdminUserController::class);
+        Route::resource('cursos',     AdminCursoController::class);
+        Route::resource('modulos',    AdminModuloController::class);
+        Route::resource('turmas',     AdminTurmaController::class);
+        Route::resource('presencas',  AdminPresencaController::class)->except(['destroy']);
 
-    // CRUD Cronogramas convencional
-    Route::resource('cronogramas', AdminCronogramaController::class);
-    // -> gera admin.cronogramas.index, create, store, show, edit, update, destroy
-
-
-    // Visualização de presenças
-    Route::get('presencas', [AdminPresencaController::class, 'index'])->name('presencas.index');
-
-    // Relatórios
-    Route::get('relatorios', [AdminRelatorioController::class, 'index'])->name('relatorios.index');
-    Route::get('relatorios/presencas/csv', [AdminRelatorioController::class, 'exportarPresencasCSV'])->name('relatorios.presencas.csv');
-    Route::get('relatorios/presencas/pdf', [AdminRelatorioController::class, 'exportarPresencasPDF'])->name('relatorios.presencas.pdf');
+        // CRUD Cronogramas convencional
+        Route::resource('cronogramas', AdminCronogramaController::class);
+        // -> gera admin.cronogramas.index, create, store, show, edit, update, destroy
 
 
-});
+        // Visualização de presenças
+        Route::get('presencas', [AdminPresencaController::class, 'index'])->name('presencas.index');
+
+        // Relatórios
+        Route::get('relatorios', [AdminRelatorioController::class, 'index'])->name('relatorios.index');
+        Route::get('relatorios/presencas/csv', [AdminRelatorioController::class, 'exportarPresencasCSV'])->name('relatorios.presencas.csv');
+        Route::get('relatorios/presencas/pdf', [AdminRelatorioController::class, 'exportarPresencasPDF'])->name('relatorios.presencas.pdf');
+    });
 
 
 
