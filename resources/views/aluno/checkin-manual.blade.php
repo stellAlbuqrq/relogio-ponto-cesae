@@ -57,7 +57,7 @@
                                 <div class="mb-5">
                                     <p class="block mb-2 text-lg text-[#40155E] font-bold">Módulo</p>
                                     <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 font-medium">
-                                        {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
+                                        {{ $cronograma->formador->nome }} – <strong>{{ $cronograma->modulo->nome }}</strong>
                                     </div>
                                 </div>
 
@@ -83,15 +83,6 @@
                                     </div>
                                 </div>
 
-                                {{-- Anexo --}}
-                                <div>
-                                    <label for="anexo" class="block mb-2 text-lg text-[#40155E] font-bold">Anexo (imagem
-                                        ou PDF)</label>
-                                    <input type="file" name="anexo" id="anexo" accept="image/*,application/pdf"
-                                        class="file-input file-input-neutral rounded-md w-full" />
-                                    {{-- <input type="file" name="anexo" id="anexo" accept="image/*,application/pdf"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300" /> --}}
-                                </div>
 
                                 {{-- Botão --}}
                                 <div class="relative items-center flex flex-col justify-center mb-2">
@@ -107,11 +98,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
 
 

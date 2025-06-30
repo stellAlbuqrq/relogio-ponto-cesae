@@ -82,7 +82,7 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
 
 
 //Rotas que passam pelo middleware CheckRole = formador
-    Route::middleware(['auth', 'checkrole:formador'])->group(function () {
+Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
     //dashboard formador
     Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');
@@ -96,7 +96,8 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     })->name('duracao-pin');
 
     // CRUD convencional de Cronogramas
-    #Rota que chama o cronograma FullCalendar
+
+    //Rota para cronograma fullcalendar
     Route::resource('cronogramas', FormadorCronogramaController::class);
     //Rota para histórico formador
     Route::get('/presencas', [FormadorPresencaController::class, 'presencaHistorico'])->name('formador.presencas');
@@ -106,9 +107,11 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     //Rota para aceitar e rejeitar justificacoes
     Route::post('/justificacoes/{justificacao}/aceitar', [JustificarController::class, 'aceitarJustificacoes'])->name('formador.justificacoes-aceitar');
     Route::post('/justificacoes/{justificacao}/rejeitar', [JustificarController::class, 'rejeitarJustificacoes'])->name('formador.justificacoes-rejeitar');
-    //Rota para formador atualizar o checkin checkout
+
+    //Rota para atualização check-in check-out pelo formador
     Route::post('/presenca/atualizar', [FormadorPresencaController::class, 'atualizarPresenca'])
-    ->name('formador.presenca.atualizar');
+
+        ->name('formador.presenca.atualizar');
 });
 
 

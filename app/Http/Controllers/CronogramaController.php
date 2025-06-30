@@ -54,7 +54,7 @@ class CronogramaController extends Controller
 
     $aulas = Cronograma::where('formador_id', $user->id)
                 ->whereDate('data', $hoje)
-                ->with('modulo','formador')
+                ->with('modulo','formador','turma')
                 ->get();
 
 

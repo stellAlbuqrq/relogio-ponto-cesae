@@ -58,7 +58,7 @@
                                 <div class="mb-5">
                                     <p class="block mb-2 text-lg text-[##232526] font-bold">Módulo</p>
                                     <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 font-medium">
-                                       {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
+                                       {{ $cronograma->formador->nome }} – <strong>{{ $cronograma->modulo->nome }}</strong>
                                     </div>
                                 </div>
 

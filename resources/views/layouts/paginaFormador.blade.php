@@ -166,7 +166,7 @@
     </aside>
 
     <!-- Conteúdo principal -->
-    <main class="flex-1 p-6 bg-[#AD87C6]">
+    <main class="flex-1 p-6 bg-[#e1dbf0]">
         @yield('content')
     </main>
 
