@@ -36,73 +36,69 @@ class PresencaRepository
     //método buscar se o aluno tem presença naquele cronograma_id -> tem checkin e tem checkout
     public function buscarPresencaAluno($cronograma_id){
 
+    public function buscarPresencaAluno($cronograma_id)
+    {
+
         return $this->buscarCheckIn($cronograma_id) && $this->buscarCheckOut($cronograma_id);
     }
 
     //método para buscar historico de presenças
-    public function buscarHistoricoAluno()
+    public function buscarHistoricoAluno($aluno_id)
     {
-        $presencas = Presenca::with('cronograma')
-            ->where('aluno_id', Auth::id())
-            ->get()
-            ->groupBy('cronograma_id');
-            //->paginate(10);
+       return Presenca::where('aluno_id', $aluno_id)
+        ->get()
+        ->groupBy('cronograma_id');
+    }
 
-        //transformar 2 presencas (checkIn e checkOut em uma linha)
+    // Histórico de presenças dos alunos em aulas que o formador ministra
+    public function buscarHistoricoFormador($formadorId, $filtros)
+    {
+        $query = Presenca::with(['cronograma.modulo', 'aluno'])
+            ->whereHas('cronograma', function ($q) use ($formadorId, $filtros) {
+                $q->where('formador_id', $formadorId);
+
+                if (!empty($filtros['modulo_id'])) {
+                    $q->where('modulo_id', $filtros['modulo_id']);
+                }
+
+                if (!empty($filtros['data_inicio'])) {
+                    $q->whereDate('data', '>=', $filtros['data_inicio']);
+                }
+
+                if (!empty($filtros['data_fim'])) {
+                    $q->whereDate('data', '<=', $filtros['data_fim']);
+                }
+            });
+
+        if (!empty($filtros['aluno_nome'])) {
+            $query->whereHas('aluno', function ($q) use ($filtros) {
+                $q->where('nome', 'like', '%' . $filtros['aluno_nome'] . '%');
+            });
+        }
+
+        $presencas = $query->get()->groupBy('cronograma_id');
+
         return $presencas->map(function ($presencasDoDia) {
             $checkIn = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckIn);
             $checkOut = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckOut);
 
-            return (object) [
-                'id' => $checkIn?->id ?? $checkOut?->id,
-                'cronograma' => $checkIn?->cronograma ?? $checkOut?->cronograma,
-                'check_in' => $checkIn?->created_at,
-                'check_out' => $checkOut?->created_at,
-            ];
-        });
-    }
-
-   public function buscarHistoricoFormador($formadorId, $filtros)
-{
-    $query = Presenca::with(['cronograma.modulo', 'aluno'])
-        ->whereHas('cronograma', function ($q) use ($formadorId, $filtros) {
-            $q->where('formador_id', $formadorId);
-
-            if (!empty($filtros['modulo_id'])) {
-                $q->where('modulo_id', $filtros['modulo_id']);
-            }
-
-            if (!empty($filtros['data_inicio'])) {
-                $q->whereDate('data', '>=', $filtros['data_inicio']);
-            }
-
-            if (!empty($filtros['data_fim'])) {
-                $q->whereDate('data', '<=', $filtros['data_fim']);
-            }
-        });
-
-    if (!empty($filtros['aluno_nome'])) {
-        $query->whereHas('aluno', function ($q) use ($filtros) {
-            $q->where('nome', 'like', '%' . $filtros['aluno_nome'] . '%');
-        });
-    }
-
-    $presencasAgrupadas = $query->get()->groupBy('cronograma_id');
-
-    return $presencasAgrupadas->flatMap(function ($presencasDoDia) {
-        // Agrupar também por aluno para evitar misturar alunos
-        return $presencasDoDia->groupBy('aluno_id')->map(function ($presencasAluno) {
-            $checkIn = $presencasAluno->firstWhere('acao', AcaoPresenca::CheckIn);
-            $checkOut = $presencasAluno->firstWhere('acao', AcaoPresenca::CheckOut);
-
-            return (object) [
-                'id' => $checkIn?->id ?? $checkOut?->id ?? null,
+            return (object)[
                 'cronograma' => $checkIn?->cronograma ?? $checkOut?->cronograma,
                 'aluno' => $checkIn?->aluno ?? $checkOut?->aluno,
                 'check_in' => $checkIn?->registrado_em,
                 'check_out' => $checkOut?->registrado_em,
             ];
         });
-    })->values();
-}
+        return $presencas->map(function ($presencasDoDia) {
+            $checkIn = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckIn);
+            $checkOut = $presencasDoDia->firstWhere('acao', AcaoPresenca::CheckOut);
+
+            return (object)[
+                'cronograma' => $checkIn?->cronograma ?? $checkOut?->cronograma,
+                'aluno' => $checkIn?->aluno ?? $checkOut?->aluno,
+                'check_in' => $checkIn?->registrado_em,
+                'check_out' => $checkOut?->registrado_em,
+            ];
+        });
+    }
 }

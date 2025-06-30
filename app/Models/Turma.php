@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User;
 
 class Turma extends Model
 {
@@ -12,7 +13,7 @@ class Turma extends Model
     protected $fillable = [
         'nome',
         'curso_id',
-        
+
     ];
 
     public function curso()
@@ -29,4 +30,5 @@ class Turma extends Model
     {
         return $this->hasMany(Cronograma::class);
     }
+
 }

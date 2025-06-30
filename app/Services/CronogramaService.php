@@ -19,7 +19,7 @@ class CronogramaService
         $this->cronogramaRepositorio = $cronogramaRepositorio;
     }
 
-
+    //método para buscar o cronograma do dia
     public function obterDiaCronograma()
     {
         //verificar o cronograma_id da aula
@@ -48,4 +48,5 @@ class CronogramaService
 
         return $this->cronogramaRepositorio->buscarCronogramaPorFormador($formador_id);
     }
+
 }

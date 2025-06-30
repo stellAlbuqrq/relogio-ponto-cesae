@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Presenca;
+use App\AcaoPresenca;
+use App\Repositories\CronogramaRepository;
 use App\Repositories\PresencaRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -11,11 +13,13 @@ use Illuminate\Support\Str;
 class PresencaService
 {
     protected $presencarepositorio;
+    protected $cronogramarepositorio;
 
     //Construtor do Repositorio
-    public function __construct(PresencaRepository $presencarepositorio)
+    public function __construct(PresencaRepository $presencarepositorio, CronogramaRepository $cronogramarepositorio)
     {
         $this->presencarepositorio = $presencarepositorio;
+        $this->cronogramarepositorio = $cronogramarepositorio;
     }
 
 
@@ -33,21 +37,58 @@ class PresencaService
     }
 
     //método para buscar historico de presenças e verificar o status da aula:presente, pendente, ausente, usa o metodo auxiliar statusCondicao()
-    public function historicoAluno()
+    public function historicoAluno(array $filtros)
     {
-        $historico = $this->presencarepositorio->buscarHistoricoAluno();
+        $aluno_id = Auth::id();
 
-        return $historico->map(function ($item) {
-            $item->status = $this->statusCondicao($item);
-            return $item;
-        });
+        //busca no as ausência no cronograma de acordo com os filtros
+        $cronogramas = $this->cronogramarepositorio->buscarCronogramaPorTurma($aluno_id, $filtros);
+
+        // Buscar presenças do aluno
+        $presencasAgrupadas = $this->presencarepositorio->buscarHistoricoAluno($aluno_id);
+
+        // Construir histórico
+        $historico = collect();
+
+        foreach ($cronogramas as $cronograma) {
+            $presencasDoCronograma = $presencasAgrupadas->get($cronograma->id, collect());
+
+            // Verificar presença com check_in
+            $checkIn = $presencasDoCronograma->firstWhere('acao', AcaoPresenca::CheckIn);
+
+            $checkOut = $presencasDoCronograma->firstWhere('acao', AcaoPresenca::CheckOut);
+
+            // definição do status
+            if (!$checkIn) {
+                $status = 'ausente';
+            } elseif ($checkIn && !$checkOut) {
+                $status = 'pendente';
+            } else {
+                $status = 'presente';
+            }
+
+            $item = (object)[
+                'cronograma' => $cronograma,
+                'check_in' => $checkIn?->created_at ?? null,
+                'check_out' => $checkOut?->created_at ?? null,
+                'status' => $status,
+            ];
+
+            if (!empty($filtros['status']) && $item->status !== $filtros['status']) {
+                continue;
+            }
+
+            $historico->push($item);
+        }
+
+        return $historico;
     }
 
     //método para verificar se o aluno tem presença, se sim, não precisa de justificacao, usa o método auxiliar statusCondicao()
-    public function temPresenca($cronograma_id){
+    public function temPresenca($cronograma_id)
+    {
 
         return $this->presencarepositorio->buscarPresencaAluno($cronograma_id);
-
     }
 
     //método auxiliar do statusAula
@@ -67,22 +108,22 @@ class PresencaService
         return 'ausente';
     }
 
-   public function historicoFormador($formadorId, $filtros)
-{
-    $historico = $this->presencarepositorio->buscarHistoricoFormador($formadorId, $filtros);
+    public function historicoFormador($formadorId, $filtros)
+    {
+        $historico = $this->presencarepositorio->buscarHistoricoFormador($formadorId, $filtros);
 
-    return $historico
-        ->map(function ($item) {
-            $item->status = $this->statusCondicao($item);
-            return $item;
-        })
-        ->filter(function ($item) use ($filtros) {
-            if (!empty($filtros['status'])) {
-                return $item->status === $filtros['status'];
-            }
-            return true;
-        });
-}
+        return $historico
+            ->map(function ($item) {
+                $item->status = $this->statusCondicao($item);
+                return $item;
+            })
+            ->filter(function ($item) use ($filtros) {
+                if (!empty($filtros['status'])) {
+                    return $item->status === $filtros['status'];
+                }
+                return true;
+            });
+    }
 
 public function atualizarPresenca($dados)
 {
@@ -119,4 +160,3 @@ public function atualizarPresenca($dados)
     }
 }
 }
-

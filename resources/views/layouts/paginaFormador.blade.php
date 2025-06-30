@@ -78,8 +78,7 @@
 
 
                     {{-- Botão Inserir PIN --}}
-                    <a class="font-bold text-2xl text-center text-[#EAEAEA] mb-5"
-                        href="{{ route('formador.pin') }}">
+                    <a class="font-bold text-2xl text-center text-[#EAEAEA] mb-5" href="{{ route('formador.pin') }}">
                         <button
                             class="rounded-2xl bg-[#6A239B] py-3 px-12 transition-all shadow-md shadow-[#9c67c4] hover:shadow-lg hover:shadow-[#6A239B] hover:bg-[#7a31ab] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
                             type="button">
@@ -115,6 +114,7 @@
                         <div id="submenu-atividades"
                             class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg font-semibold">
                             <a href="{{ route('aluno.presenca') }}">Conferir Presença</a>
+                            <a href="{{ route('formador.justificacoes') }}">Conferir Falta Justificada</a>
                             <a href="{{ route('formador.presencas') }}">Histórico</a>
                             {{-- <a href="{{ route('aluno.presenca-out') }}">Check-out Antecipado</a> --}}
                         </div>

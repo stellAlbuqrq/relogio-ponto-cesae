@@ -97,16 +97,14 @@
                                 </td>
                                 <td class="p-4">
                                     <div class="flex gap-2">
-                                        <form method="POST"
-                                            action="{{ route('formador.justificacoes-aceitar', $justificacao->id) }}">
+                                        <form method="POST" action="{{ route('formador.justificacoes-aceitar', $justificacao) }}">
                                             @csrf
                                             <button type="submit"
                                                 class="bg-green-500 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded-lg text-sm">
                                                 Aceitar
                                             </button>
                                         </form>
-                                        <form method="POST"
-                                            action="{{ route('formador.justificacoes-rejeitar', $justificacao->id) }}">
+                                        <form method="POST" action="{{ route('formador.justificacoes-rejeitar', $justificacao) }}">
                                             @csrf
                                             <button type="submit"
                                                 class="bg-red-500 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded-lg text-sm">

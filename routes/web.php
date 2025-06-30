@@ -69,21 +69,36 @@ Route::middleware(['auth', 'checkrole:aluno'])->group(function () {
     Route::post('/presenca/checkout', [PresencaController::class, 'presencaCheckOutGuardar'])->name('aluno.checkout');
     //Rota check in manual -> sem PIN
     Route::get('presenca/checkin/manual', [PresencaController::class, 'presencaCheckInManual'])->name('aluno.checkin-manual');
+    Route::post('presenca/manual/guardar', [PresencaController::class, 'presencaCheckInManualGuardar'])->name('aluno.checkin-manual-guardar');
     //Rota para histórico
     Route::get('/presenca/historico', [PresencaController::class, 'presencaHistorico'])->name('aluno.historico');
+
+    // CRUD convencional de Cronogramas
+    Route::get('aluno/cronograma', [CronogramaController::class, 'cronogramaAlunoMensalMostar'])->name('aluno.cronograma');
 
     //Rota justificacoes de falta
     Route::get('/justificacoes', [JustificarController::class, 'justificarFaltas'])->name('aluno.justificacoes');
     Route::post('/justificacoes/guardar', [JustificarController::class, 'justificarGuardar'])->name('aluno.justificacoes-guardar');
 
     //Rota cronograma
-    Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.cronograma');
+    Route::get('/aluno/cronograma', [CronogramaController::class, 'mostrarCronograma'])->name('aluno.aulas-dia');
 });
 
 
 //Rotas que passam pelo middleware CheckRole = formador
 Route::middleware(['auth', 'checkrole:formador'])->group(function () {
+Route::middleware(['auth', 'checkrole:formador'])->group(function () {
 
+    //dashboard formador
+    Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');
+    //Rota página que mostra info da aula e botão Disparar Pin
+    Route::get('/pin', [DisparoPinController::class, 'mostrarPin'])->name('formador.pin');
+    //Rota que guarda o disparo do pin
+    Route::post('/dispararPin', [DisparoPinController::class, 'dispararPin'])->name('formador.disparo-pin');
+    //Rota que mostra a duração do pin
+    Route::get('/pin/duracao', function () {
+        return view('duracao-pin');
+    })->name('duracao-pin');
     //dashboard formador
     Route::get('/formador', [CronogramaController::class, 'formadorAulas'])->name('formador.dashboard');
     //Rota página que mostra info da aula e botão Disparar Pin
