@@ -24,4 +24,9 @@ class JustificacaoService
     return $this->justificacaorepositorio->buscarjustificacoes($cronogramaIds);
 
     }
+
+    //método que busca as justificacoes de X aluno
+    public function justificacoesPorAluno($cronograma_id, $aluno_id){
+        return $this->justificacaorepositorio->buscarJustificacoesAluno($cronograma_id, $aluno_id);
+    }
 }

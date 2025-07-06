@@ -30,7 +30,6 @@ class PinService
     }
 
     //método verifica se já existe um pin para aquela aula
-    //########################TALVEZ EU POSSO ELIMINAR ESTE METODO QUE SO RETORNA TRUE OR FALSE
     public function buscarUmPinPorAula($cronograma_id)
     {
         return $this->pinrepositorio->existePin($cronograma_id);

@@ -42,16 +42,14 @@ class DisparoPinController extends Controller
         //Obter o cronograma_id da aula
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
-        //Se $query é true, já existe um PIN para esta aula
-        $query = $this->pinService->buscarUmPinPorAula($cronograma_id);
+        // Buscar diretamente um PIN válido (não expirado) para esta aula
+        $pinExistente = Pin::where('cronograma_id', $cronograma_id)
+            ->where('expires_at', '>', Carbon::now())
+            ->latest()
+            ->first();
 
-        //Se pin existe, ele busca o pin e passa para a view formador.duracao-pin
-        if ($query == true) {
-
-            $pinExistente = Pin::where('cronograma_id', $cronograma_id)->latest()->first();
-
-
-            $horaExpiracao = Carbon::parse($pinExistente->created_at)->addMinutes(10)->format('H:i:s');
+        if ($pinExistente) {
+            $horaExpiracao = Carbon::parse($pinExistente->expires_at)->format('H:i:s');
 
             return view('formador.duracao-pin', [
                 'pin' => $pinExistente->pin,
@@ -60,20 +58,23 @@ class DisparoPinController extends Controller
             ]);
         }
 
-        //gerar o pin
+        // Se não existe PIN válido, gera um novo
         $pin = $this->pinService->gerarPinUnico();
 
-        $horaExpiracao = Carbon::now()->addMinutes(10)->format('H:i:s');       // Definir tempo de expiração do PIN (10 minutos)
+        $agora = Carbon::now();
+        $horaExpiracao = $agora->copy()->addMinutes(10);       // tempo de expiração do PIN (10 minutos)
+        $horaExpiracaoFormatada = $horaExpiracao->format('H:i:s');    //Passa para o front-end apenas as horas sem data
 
         //Adicionar o Pin na tabela PIN:
         Pin::create([
             'cronograma_id' => $cronograma_id,
             'pin' => $pin,
+            'expires_at' => $horaExpiracao,
         ]);
 
         return view('formador.duracao-pin', [
             'pin' => $pin,
-            'horaExpiracao' => $horaExpiracao
+            'horaExpiracao' => $horaExpiracaoFormatada
         ]);
     }
 }

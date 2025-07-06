@@ -70,7 +70,7 @@
 
                 <!-- Nome do Formador -->
                 <h5 class="text-center text-xl font-bold mb-6">
-                    Bem-vindo, {{ auth()->user()->nome }}!
+                    Bem-vindo(a), {{ auth()->user()->nome }}!
                 </h5>
 
                 <!-- Itens do menu -->
@@ -113,12 +113,41 @@
                         {{-- Subitens --}}
                         <div id="submenu-atividades"
                             class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg font-semibold">
-                            <a href="{{ route('aluno.presenca') }}">Conferir Presença</a>
-                            <a href="{{ route('formador.justificacoes') }}">Conferir Falta Justificada</a>
+                            <a href="{{route('formador.presencas-modulo')}}">Presença de Alunos </a>
                             <a href="{{ route('formador.presencas') }}">Histórico</a>
                             {{-- <a href="{{ route('aluno.presenca-out') }}">Check-out Antecipado</a> --}}
                         </div>
                     </div>
+
+                    <!-- Botão Faltas -->
+                    <div class="mb-2">
+                        <button type="button"
+                            class="flex items-center justify-between w-full p-3 font-bold text-left hover:text-[#6c3594]"
+                            data-menu="atividades2">
+                            <div class="grid mr-4 place-items-center">
+                                {{-- Icone --}}
+                                <svg class="w-[25px] h-[25px] fill-[#7426aa]" viewBox="0 0 512 512"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113C-2.3 103.6-2.3 88.4 7 79s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zM160 416c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32zM48 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z">
+                                    </path>
+
+                                </svg>
+                            </div>
+                            <span class="mr-auto text-xl">Faltas Justificadas</span>
+                            <svg id="arrow-atividades2" class="w-4 h-4 transition-transform" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+
+                        {{-- Subitens --}}
+                        <div id="submenu-atividades2"
+                            class="submenu ml-6 mt-2 flex flex-col gap-1 text-lg font-semibold">
+                            <a href="{{ route('formador.justificacoes') }}">Validar Faltas</a>
+                        </div>
+                    </div>
+
 
                     {{-- Cronograma --}}
                     <div class="mb-2 flex items-center p-3 font-bold text-xl">
@@ -138,7 +167,6 @@
                         </div>
                     </div>
 
-                    <!-- Deixa os botões no final da página -->
                     <div class="flex-grow"></div>
 
                     <!-- Log Out -->

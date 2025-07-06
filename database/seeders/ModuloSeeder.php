@@ -37,7 +37,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Desenvolvimento de Aplicações Mobile',
             'turma_id' => 4,
             'formador_id' => 101,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -60,8 +60,8 @@ class ModuloSeeder extends Seeder
             'id' => 5091,
             'nome' => 'Projeto de tecnologias e programação de sistemas de informação',
             'turma_id' => 4,
-            'formador_id' => 102,
-            'carga_horaria' => 25,
+            'formador_id' => 101,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -93,7 +93,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Programação de computadores - estruturada',
             'turma_id' => 4,
             'formador_id' => 101,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -101,7 +101,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Programação de computadores - orientada a objetos',
             'turma_id' => 4,
             'formador_id' => 101,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -109,7 +109,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Programação para a WEB - cliente (client side)',
             'turma_id' => 4,
             'formador_id' => 103,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -117,7 +117,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Programação para a WEB - servidor (server side)',
             'turma_id' => 4,
             'formador_id' => 103,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -133,7 +133,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Integração de sistemas de informação - tecnologias e níveis de Integração',
             'turma_id' => 4,
             'formador_id' => 102,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([
@@ -141,7 +141,7 @@ class ModuloSeeder extends Seeder
             'nome' => 'Acesso móvel a sistemas de informação',
             'turma_id' => 4,
             'formador_id' => 101,
-            'carga_horaria' => 25,
+            'carga_horaria' => 50,
         ]);
 
         Modulo::create([

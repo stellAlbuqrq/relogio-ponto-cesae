@@ -11,7 +11,7 @@ class AdminTurmaController extends Controller
 {
     public function index()
     {
-        $turmas = Turma::with('curso')->get();
+        $turmas = Turma::with(['curso','cronogramas'])->get();
         return view('admin.turmas.index', compact('turmas'));
     }
 

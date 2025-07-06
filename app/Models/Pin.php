@@ -14,5 +14,6 @@ class Pin extends Model
     protected $fillable = [
         'cronograma_id',
         'pin',
+        'expires_at',
     ];
 }

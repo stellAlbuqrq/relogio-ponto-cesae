@@ -11,7 +11,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken();  // gera novo token CSRF
+        $request->session()->regenerateToken();
 
         return view('auth.login');
     }

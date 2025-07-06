@@ -87,5 +87,117 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password123'),
             'role' => 'aluno',
         ]);
+
+        User::create([
+            'id' => 204,
+            'nome' => 'Amanda Brito',
+            'email' => 'amanda.brito.319059677@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 205,
+            'nome' => 'Angela Peixoto',
+            'email' => 'angela.peixoto.268650616@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 206,
+            'nome' => 'Angélica Olivares',
+            'email' => 'angelica.olivares.307861643@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 207,
+            'nome' => 'Bruna Silva',
+            'email' => 'bruna.silva.233921630@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 208,
+            'nome' => 'Fabiane Nascimento',
+            'email' => 'fabiane.nascimento.299931366@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 209,
+            'nome' => 'Joana Ventuzelos',
+            'email' => 'joana.ventuzelos.269157921@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 210,
+            'nome' => 'José Fernandes',
+            'email' => 'jose.fernandes.214496210@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 211,
+            'nome' => 'Luís Basto',
+            'email' => 'luis.basto.265784700@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 212,
+            'nome' => 'Luís Mago',
+            'email' => 'luis.mago.298162059@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 213,
+            'nome' => 'Pedro Lopes',
+            'email' => 'pedro.lopes.301624089@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 214,
+            'nome' => 'Pedro Rodrigues',
+            'email' => 'pedro.rodrigues.246839147@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 215,
+            'nome' => 'Rui Silva',
+            'email' => 'rui.silva.242957803@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 216,
+            'nome' => 'Tiago Felix',
+            'email' => 'tiago.felix.247189685@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
+
+        User::create([
+            'id' => 217,
+            'nome' => 'Viviane Dias',
+            'email' => 'viviane.dias.251078493@msft.cesae.pt',
+            'password' => bcrypt('password123'),
+            'role' => 'aluno',
+        ]);
     }
 }

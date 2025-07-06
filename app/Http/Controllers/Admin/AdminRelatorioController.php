@@ -23,7 +23,7 @@ public function exportarPresencasCSV()
                 $presencas->map(function ($p) {
                     return [
 
-                        'Aluno'  => $p->aluno->nome ?? 'N/A', // Usar 'N/A' ou '' para casos onde o aluno pode ser nulo
+                        'Aluno'  => $p->aluno->nome ?? 'N/A',
                         'Curso'  => $p->cronograma->modulo->turma->curso->nome ?? 'N/A',
                         'Módulo' => $p->cronograma->modulo->nome ?? 'N/A',
                         'Data'   => $p->created_at->format('d/m/Y H:i'),
@@ -43,4 +43,8 @@ public function exportarPresencasCSV()
 
     return $pdf->download('relatorio_presencas.pdf');
 }
+
+
+
+
 }

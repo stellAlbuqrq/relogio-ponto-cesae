@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
-//DisparoPinController será reponsável pelo evento realizado pelo Formador
-//PresencaContoller será reponsável pelos eventos realizados pelo Aluno
 
 class PresencaController extends Controller
 {
@@ -38,17 +36,17 @@ class PresencaController extends Controller
     //Método mostra a informação hora/data, aluno, módulo e botão "Picagem"
     public function presencaMostrar()
     {
-        //Dados obtidos do cronograma -> com o cronograma_id obtemos o objeto cronograma onde tem toda a info de uma aula específica do cronograma (1 linha)
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
         if (!$cronograma_id) {
-            // Erro caso não tenha aula hoje
-            return view('aluno.presenca')->with('error', 'Hoje não tem aula.');
+            return view('aluno.presenca', ['cronograma' => null, 'error' => 'Hoje não tem aula.']);
         }
+
         $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
         return view('aluno.presenca', ['cronograma' => $cronograma]);
     }
+
 
     //Método mostra página do check-out antecipado
     public function presencaMostrarOut()
@@ -56,8 +54,9 @@ class PresencaController extends Controller
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
         if (!$cronograma_id) {
-            return view('aluno.presenca-out')->with('error', 'Hoje não tem aula.');
+            return view('aluno.presenca-out', ['cronograma' => null, 'error' => 'Hoje não tem aula.']);
         }
+
         $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
         return view('aluno.presenca-out', ['cronograma' => $cronograma]);
@@ -70,6 +69,19 @@ class PresencaController extends Controller
         //validação do campo que vem do front-end: PIN
         //validação importante!! -> pin na tabela 'presenca' deve ser unique em caso de check-in
         //na tabela o 'pin' é definido como not null mas na tabela 'presenca' deve ser nullable para aceitar as situações de check-out que não inserimos pin
+
+        //obter cronograma_id
+        $cronograma_id = $this->cronogramaService->obterDiaCronograma();
+
+        //Validações:
+
+        //1.Validação de presença já realizada, garante que só tem 1 checkIn por aula
+        $mensagemErro = $this->presencaService->pinJaInserido($cronograma_id);
+        if ($mensagemErro) {
+            return redirect()->route('aluno.presenca')->with('mensagem', 'O aluno(a) já fez check-in');
+        }
+
+        //validar os dados caso o aluno não tenha checkin
         $dadosValidados = $request->validate([
             'pinInserido' => [
                 'required',
@@ -79,18 +91,6 @@ class PresencaController extends Controller
         ]);
 
         $pinInserido = $dadosValidados['pinInserido'];
-
-        //obter cronograma_id
-        $cronograma_id = $this->cronogramaService->obterDiaCronograma();
-
-        //Validações:
-
-        //1.Validação de presença já realizada, garante que só tem 1 checkIn por aula
-        $mensagemErro = $this->presencaService->pinJaInserido($cronograma_id);
-
-        if ($mensagemErro) {
-            return redirect()->route('aluno.presenca')->with('mensagem', 'O aluno(a) já fez check-in');
-        }
 
         //2.Validação: se PIN foi disparado pelo formador (existe)
         $mensagemErro2 = $this->pinService->pinDisparado($cronograma_id);
@@ -109,7 +109,6 @@ class PresencaController extends Controller
         if ($mensagemErro4) {
             return redirect()->route('aluno.presenca')->with('mensagem', $mensagemErro4);
         }
-
 
         $aluno_id = Auth::id();
 
@@ -147,8 +146,9 @@ class PresencaController extends Controller
                 ->delay(now()->addSeconds($delaySegundos));
         }
 
-        return redirect()->route('aluno.presenca')->with('mensagem', 'Presença registada com sucesso.');
+        return redirect()->route('aluno.presenca')->with('mensagem-sucesso', 'Presença registada com sucesso.');
     }
+
 
 
     //Método que guarda o checkout
@@ -164,12 +164,12 @@ class PresencaController extends Controller
 
         //validação se o aluno fez check-in
         if (!$this->presencaService->pinJaInserido($cronograma_id)) {
-            return redirect()->back()->with('mensagem', 'Check-in ainda não realizado, não é possível realizar check-out.');
+            return redirect()->route('aluno.presenca-out')->with('mensagem', 'Check-in ainda não realizado, não é possível realizar check-out.');
         }
 
         //validação se o aluno já fez check-out
         if ($this->presencaService->existeCheckOut($cronograma_id)) {
-            return redirect()->back()->with('mensagem', 'Check-out já realizado.');
+            return redirect()->route('aluno.presenca-out')->with('mensagem', 'Check-out já realizado.');
         }
 
         //Criar presenca check-out
@@ -180,23 +180,22 @@ class PresencaController extends Controller
             'comentario' => $dadosValidados['comentario'] ?? null,
         ]);
 
-        return redirect()->route('aluno.dashboard')->with('mensagem', 'Check-out registado com sucesso.');
+        return redirect()->route('aluno.presenca-out')->with('mensagem-sucesso', 'Check-out registado com sucesso.');
     }
 
     public function presencaCheckInManual()
     {
-
         $cronograma_id = $this->cronogramaService->obterDiaCronograma();
 
         if (!$cronograma_id) {
-            return view('aluno.presenca')->with('error', 'Hoje não tem aula.');
+            return view('aluno.checkin-manual', ['cronograma' => null, 'error' => 'Hoje não tem aula.']);
         }
-        $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
-        #################### ajustar -> falta atributo anexo para salvar os ficheiros inseridos e tambem o metodo que salva o check in manaul
+        $cronograma = Cronograma::with('modulo', 'formador')->findOrFail($cronograma_id);
 
         return view('aluno.checkin-manual', ['cronograma' => $cronograma]);
     }
+
 
     public function presencaCheckInManualGuardar(Request $request)
     {
@@ -253,7 +252,7 @@ class PresencaController extends Controller
                 ->delay(now()->addSeconds($delaySegundos));
         }
 
-        return redirect()->route('aluno.dashboard')->with('mensagem', 'Presença registada com sucesso.');
+        return redirect()->route('aluno.checkin-manual')->with('mensagem-sucesso', 'Presença registada com sucesso.');
     }
 
 
@@ -273,4 +272,6 @@ class PresencaController extends Controller
 
         return view('aluno.historico', compact('historico', 'modulos'));
     }
+
+
 }

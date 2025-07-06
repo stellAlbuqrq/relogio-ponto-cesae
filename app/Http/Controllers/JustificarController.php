@@ -22,7 +22,7 @@ class JustificarController extends Controller
     //Construtor do Service
     public function __construct(CronogramaService $cronogramaService, PresencaService $presencaService, JustificacaoService $justificacaoService)
     {
-        ################## TIRAR SERVICES NAO USADOS
+
         $this->cronogramaService = $cronogramaService;
         $this->presencaService = $presencaService;
         $this->justificacaoService = $justificacaoService;
@@ -63,6 +63,15 @@ class JustificarController extends Controller
             return redirect()->route('aluno.justificacoes')->with('mensagem', 'O aluno tem presença neste dia.');
         }
 
+        $aluno_id = Auth::id();
+
+        //buscar se já existe justificacao para aquele dia/periodo (evitar duplicacoes)
+        $justificacao = $this->justificacaoService->justificacoesPorAluno($cronograma_id, $aluno_id);
+
+        if ($justificacao) {
+            return redirect()->route('aluno.justificacoes')->with('mensagem', 'Uma justificação já foi criada para a aula indicada.');
+        }
+
         //guardar caminho do anexo se for inserido
         $caminho = null;
         if ($request->hasFile('anexo')) {
@@ -73,20 +82,18 @@ class JustificarController extends Controller
         Justificativa::create([
             'aluno_id' => Auth::id(),
             'cronograma_id' => $cronograma_id,
-            'data_justificada' => $dataJustificacao,
             'periodo' => $dadosValidados['periodo'],
             'data_justificada' => $dataJustificacao,
             'texto' => $dadosValidados['comentario'],
             'anexo' => $caminho ?? null,
         ]);
 
-        return redirect()->route('aluno.dashboard')->with('mensagem', 'Justificação enviada com sucesso.');
+        return redirect()->route('aluno.justificacoes')->with('mensagem-sucesso', 'Justificação enviada com sucesso.');
     }
 
     //método que mostra as justificacoes dos alunos para o formador
     public function mostrarJustificacoes()
     {
-
         $formador_id = Auth::id();
 
         //busca todos os cronogramas do formador

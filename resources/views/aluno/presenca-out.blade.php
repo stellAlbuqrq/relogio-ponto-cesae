@@ -14,9 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-
 </head>
-
 
 @extends('layouts.paginaAluno')
 
@@ -25,29 +23,56 @@
         <h1 class="ml-8 mt-4 mb-12 font-bold text-[#40155E] text-4xl">Faça o seu check-out</h1>
     </div>
 
-{{-- Formulário --}}
+    {{-- Formulário --}}
     <div class="relative items-center flex flex-col justify-center">
         <div class="relative flex w-full max-w-[48rem] flex-col rounded-lg bg-white border border-slate-200 shadow-sm">
             <div class="relative items-center flex flex-col justify-center text-white h-28 rounded-md bg-[#232526]">
-                <h5 class="text-white text-3xl font-bold">
-                    Check-out Antecipado
-                </h5>
+                <h5 class="text-white text-3xl font-bold">Check-out Antecipado</h5>
             </div>
+
             <div class="p-6">
+
+                {{-- Mensagem de sucesso --}}
+                @if (session('mensagem-sucesso'))
+                    <div class="flex justify-center mb-3">
+                        <div role="alert"
+                            class="alert alert-success alert-soft border border-green-400 transition transform duration-500 ease-in-out animate-fadeIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current text-green-600"
+                                fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span class="text-lg text-green-700 font-medium">{{ session('mensagem-sucesso') }}</span>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Mensagem de erro --}}
+                @if (session('mensagem'))
+                    <div class="flex justify-center mb-3">
+                        <div role="alert"
+                            class="alert alert-error alert-soft border border-red-400 transition transform duration-500 ease-in-out animate-fadeIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="text-lg text-red-700 font-medium">{{ session('mensagem') }}</span>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="block overflow-visible">
-
-                    <div
-                        class="relative block w-full overflow-hidden !overflow-x-hidden !overflow-y-visible bg-transparent">
+                    <div class="relative block w-full overflow-x-hidden overflow-y-visible bg-transparent">
                         <div role="tabpanel" data-value="card">
-
                             <form class="mt-3 flex flex-col" action="{{ route('aluno.checkout') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
+
                                 {{-- Hora --}}
                                 <div class="mb-5">
-                                    {{-- <p class="block mb-2 text-lg text-[#232526] font-bold">Hora</p> --}}
-                                    <div id="hora" class="w-full px-3 py-2 font-bold text-4xl relative items-center flex flex-col justify-center"></div>
+                                    <div id="hora" class="w-full px-3 py-2 font-bold text-4xl text-center"></div>
                                 </div>
+
                                 {{-- Data --}}
                                 <div class="mb-5">
                                     <p class="block text-lg text-[#232526] font-bold">Data</p>
@@ -56,28 +81,33 @@
 
                                 {{-- Módulo --}}
                                 <div class="mb-5">
-                                    <p class="block mb-2 text-lg text-[##232526] font-bold">Módulo</p>
-                                    <div class="px-3 py-2 bg-gray-100 rounded text-gray-700 font-medium">
-                                       {{ $cronograma->formador->nome }} – <strong>{{ $cronograma->modulo->nome }}</strong>
-                                    </div>
+                                    <p class="block text-lg text-[#232526] font-bold mb-2">Módulo</p>
+                                    @if ($cronograma && $cronograma->formador && $cronograma->modulo)
+                                        <div
+                                            class="px-3 py-2 bg-[#efe4f7] rounded text-[#232526] font-semibold text-center">
+                                            {{ $cronograma->formador->nome }} –
+                                            <strong>{{ $cronograma->modulo->nome }}</strong>
+                                        </div>
+                                    @else
+                                        <div
+                                            class="px-3 py-2 bg-[#f1ecf4] rounded text-[#232526] font-semibold text-center">
+                                            Informação de módulo indisponível.
+                                        </div>
+                                    @endif
                                 </div>
 
                                 {{-- Comentário --}}
                                 <div>
                                     <label for="comentario"
                                         class="block mb-2 text-lg text-[#232526] font-bold">Justificação</label>
-                                </div>
 
-
-                                <div>
                                     <div class="relative w-full min-w-[200px] mb-3">
                                         <textarea id="comentario" name="comentario" rows="4"
-                                            class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-gray-300 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-lg font-normal text-gray-800 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                                            class="peer h-full min-h-[100px] w-full resize-none rounded-[7px] border border-gray-300 border-t-transparent bg-transparent px-3 py-2.5 text-lg font-normal text-gray-800 outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-2 focus:border-gray-900"
                                             placeholder=" "></textarea>
 
                                         <label for="comentario"
-                                            class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-gray-500 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm
-                                             peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-gray-500">
+                                            class="pointer-events-none absolute left-0 -top-1.5 w-full select-none text-[11px] leading-tight text-gray-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-gray-500 peer-focus:text-[11px] peer-focus:text-gray-900">
                                             Escreva a sua justificação aqui...
                                         </label>
                                     </div>
@@ -90,75 +120,16 @@
                                         Check-out
                                     </button>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
 
-
-
-
-    {{-- <form action="{{ route('aluno.checkout') }}" method="POST">
-        @csrf
-        <div class="max-w-md mx-auto p-8 bg-white rounded-md shadow-md space-y-6">
-            <h2 class="text-2xl font-semibold text-center">Check Out</h2>
-
-            Hora
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Hora</p>
-                <div id="hora" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
-            </div>
-
-            Data
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Data</p>
-                <div id="data" class="w-full px-3 py-2 bg-gray-100 rounded text-gray-700"></div>
-            </div>
-
-            Módulo
-            <div>
-                <p class="block text-gray-700 text-sm font-bold mb-1">Módulo</p>
-                <div class="px-3 py-2 bg-gray-100 rounded text-gray-700">
-                    {{ $cronograma->formador->nome }} – {{ $cronograma->modulo->nome }}
-                </div>
-            </div>
-
-            Comentário
-            <div>
-                <label for="comentario" class="block text-gray-700 text-sm font-bold mb-1">Comentário</label>
-                <textarea id="comentario" name="comentario" rows="4"
-                    class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300 resize-y"
-                    placeholder="Escreve aqui o teu comentário..."></textarea>
-            </div>
-
-            Botão
-            <button type="submit" name="acao" value="check_out"
-                class="w-full bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring">
-                Check‑out
-            </button> --}}
-
-            {{-- Mensagem de erro --}}
-            @if (session('mensagem'))
-                <div class="flex items-start space-x-3 bg-red-100 border border-red-200 text-red-800 rounded p-4">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l5.518 9.815c.75 1.333-.213 3.086-1.742 3.086H4.48c-1.53 0-2.492-1.753-1.742-3.086L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-.894.553l-.5 1a1 1 0 001.788.894l.5-1A1 1 0 0010 5z" />
-                    </svg>
-                    <div class="flex-1 text-sm">
-                        {{ session('mensagem') }}
-                    </div>
-                    <button type="button" onclick="this.parentElement.remove()"
-                        class="text-red-500 hover:text-red-700 focus:outline-none">
-                        &times;
-                    </button>
-                </div>
-            @endif
-        </div>
-    </form>
-
+    {{-- Script para hora e data --}}
     <script>
         function mostrarHoraData() {
             const agora = new Date();
@@ -170,9 +141,6 @@
         }
 
         mostrarHoraData();
-
-        setInterval(() => {
-            mostrarHoraData();
-        }, 1000);
+        setInterval(mostrarHoraData, 1000);
     </script>
 @endsection

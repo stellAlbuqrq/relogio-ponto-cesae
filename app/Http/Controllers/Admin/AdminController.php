@@ -13,6 +13,7 @@ class AdminController extends Controller
 
      public function index()
     {
-        return view('admin.dashboard'); // <- deve bater com o caminho da view
+        return view('admin.dashboard'); 
     }
+
 }

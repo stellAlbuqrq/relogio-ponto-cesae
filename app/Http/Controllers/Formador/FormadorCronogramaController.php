@@ -14,18 +14,18 @@ class FormadorCronogramaController extends Controller
 
 
         $cronogramaEventos = $cronogramas->map(function ($cronograma) {
-            // Concatena a data com a hora para formar o datetime completo
+
             $startDateTime = $cronograma->data . 'T' . $cronograma->hora_inicio;
             $endDateTime = $cronograma->data . 'T' . $cronograma->hora_fim;
             return [
                 'id'    => $cronograma->id,
-                'title' => $cronograma->modulo->nome, // O nome do evento
+                'title' => $cronograma->modulo->nome,
                 'start' => $startDateTime,
                 'end' => $endDateTime,
-                // Adicione outras propriedades se desejar, como 'color'
-                 'color' => '#f0ad4e' // Exemplo de cor para este evento
+
+                 'color' => '#f0ad4e'
             ];
-        })->all(); // Converte a coleção para um array simples
+        })->all(); 
         return view('formador.cronogramas.index', compact('cronogramaEventos'));
     }
 
