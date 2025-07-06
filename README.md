@@ -1,61 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ⏱️ Sistema de Picagem de Ponto - CESAE Digital
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto foi desenvolvido com **Laravel 12**, utilizando **MySQL (MariaDB)** como base de dados, **Breeze** para autenticação e **Blade** para renderização da interface. O principal objetivo é disponibilizar uma aplicação web para registo da picagem de ponto dos formandos dos cursos do CESAE Digital.
 
-## About Laravel
+O sistema está dividido por perfis de utilizador, cada um com funcionalidades distintas:
+- **Administrador:** Gestão total de cursos, turmas, módulos, formadores e formandos.
+- **Formador:** Disparo de PIN para picagem, visualização do cronograma, gestão de presenças e validação de justificações.
+- **Formando:** Picagem por PIN (manual e automática), acesso ao histórico de aulas, justificação de faltas, e consulta ao cronograma.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Laravel 12** – Framework moderno e robusto em PHP  
+- **MySQL (MariaDB)** – Sistema de gestão de bases de dados relacionais  
+- **Breeze** – Implementação simples de autenticação  
+- **Blade** – Motor de templates do Laravel  
+- **Tailwind CSS** – Framework de estilos moderno e responsivo  
+- **Bootstrap** – Componentes visuais prontos  
+- **PHP Pest** – Framework de testes elegante  
+- **JavaScript** – Funcionalidades interativas no frontend  
+- **FullCalendar** – Biblioteca de calendário interativo  
+- **ApexCharts** – Gráficos interativos e personalizáveis  
+- **Spatie Simple Excel** – Importação/exportação de ficheiros CSV/Excel  
+- **Git & GitHub** – Controlo de versão e colaboração
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🎯 Funcionalidades
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+✔ Autenticação e registo para diferentes tipos de utilizadores  
+✔ Picagem de ponto com PIN, incluindo picagens tardias e check-out automático  
+✔ Gestão completa de cronogramas e presenças  
+✔ Submissão e validação de justificações (ex: atestados médicos)  
+✔ Exportação/importação de dados em CSV/Excel  
+✔ Integração com filas Laravel (`queue:work`) para automatização do check-out  
+✔ Base de dados com dados simulados (seeders) para testes
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🔧 Instalação
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+> **Importante:** Certifica-te que o teu ambiente local (ex: XAMPP) está ativo com MySQL em execução.
 
-### Premium Partners
+```bash
+# Clonar o repositório
+git clone https://github.com/stellAlbuqrq/relogio-ponto-cesae.git
+cd relogio-ponto-cesae
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+# Instalar as dependências
+composer install
+npm install
 
-## Contributing
+# Copiar ficheiro de ambiente e configurar
+cp .env.example .env
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Migrar base de dados
+php artisan migrate
 
-## Code of Conduct
+# Popular a base de dados com dados iniciais
+php artisan db:seed
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# (Importante) Importar manualmente o ficheiro cronograma:
+# Usar o MySQL Workbench ou semelhante → Import Table Data
+# Ficheiro: Data/data_base_cronograma(Folha1).csv
 
-## Security Vulnerabilities
+# Atualizar autoload e bibliotecas
+composer dump-autoload
+composer update
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Criar link para armazenar justificações
+php artisan storage:link
 
-## License
+# Instalar biblioteca de Excel (se ainda não estiver instalada)
+composer require spatie/simple-excel
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# (Opcional) Gerar presenças fictícias
+php artisan db:seed --class=PresencaSeeder
+
+# (Opcional) Ativar fila para check-out automático
+php artisan queue:work
+
