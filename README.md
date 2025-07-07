@@ -38,6 +38,25 @@ O sistema está dividido por perfis de utilizador, cada um com funcionalidades d
 
 ---
 
+---
+
+## 🔐 Dados de Acesso para Testes
+
+> Utilizadores de exemplo criados pelo seeder (`php artisan db:seed`)
+
+### 👨‍💼 Administrador
+- Email: admin@example.com
+- Palavra-passe: password123  
+
+### 👨‍🏫 Formador
+- Email: sara@example.com
+- Palavra-passe: password123  
+
+### 👨‍🎓 Formando
+- Email: carmem.zavattieri.298335670@msft.cesae.pt
+- Palavra-passe: password123  
+
+
 ## 🔧 Instalação
 
 > **Importante:** Certifica-te que o teu ambiente local (ex: XAMPP) está ativo com MySQL em execução.
